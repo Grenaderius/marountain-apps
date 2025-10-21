@@ -1,0 +1,168 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    background: transparent;
+  
+}
+
+.add-app-page {
+    position: relative;
+    width: 100%;
+    height: 100vh; 
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* фон на всю сторінку */
+.add-app-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("/images/main-background.png");
+    background-size: cover;
+    background-position: center;
+    filter: blur(6px); 
+    z-index: 0;
+}
+
+/* затемнення поверх фото */
+.add-app-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4); 
+    z-index: 1;
+}
+
+/* контент */
+.add-app-layout {
+    position: relative;
+    z-index: 2; 
+    color: white;
+    text-align: right;
+}
+
+    .add-app-layout p {
+        margin: 0px;
+        font-size: 20px;
+        float: left;
+    }
+
+.add-app-header-text {
+    font-size: 3.5vh;    
+    margin-top: 120px;
+    text-align: center;
+}
+
+        .photo-content p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+.add-app-right-input-section {
+    display: flex;
+    justify-content: flex-end; 
+    width: 100%;
+}
+
+.add-app-top-section {
+    display: flex; /* розміщує елементи поруч */
+    justify-content: space-between; /* розводить вліво і вправо */
+    align-items: flex-start; /* вирівнює по верхньому краю */
+    gap: 40px; /* відстань між лівим і правим блоком */
+    width: 97%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.add-app-add-apk-and-icon-section {
+    flex: 0 0 auto;
+    margin-left: 20px;
+}
+
+.add-app-right-input-inside-section {
+    display: flex;
+    flex-direction: column; /* інпути один під одним */
+    align-items: flex-start; /* вирівняти інпути по правому краю */
+    margin-top: 55px;
+}
+
+.add-app-info-text-input {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    color: black;
+    height: 3.5vh;
+    width: 500px;
+    font-size: 20px;
+    font-weight: 550;
+    margin-bottom: 10px;
+    margin-right: 20px;
+}
+
+/*BOTTOM SECTION*/
+.add-app-bottom-section {
+    height: fit-content;
+    width: 95%;
+    text-align: center !important;
+    justify-content: center;
+    align-content: center;
+    margin: 0 auto;
+}
+
+.add-app-description-text-input {
+    height: 165px;
+    width: 100%;
+    border-radius: 4px;
+    background-color: white;
+    color: black;
+    resize: none;
+    border: 1px solid black;
+    font-size: 20px;
+    font-weight: 550;
+    
+}
+
+.add-app-checkbox {
+    margin-top: 10px;
+    margin-left: 7px;
+    margin-bottom: 10px;
+    float: right;
+}
+
+.add-app-checkbox-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.add-app-checkbox {
+    float: none;
+}
+
+.add-app-apply-btn {
+    width: 344px;
+    height: 87px;
+    padding: 10px;
+    background-color: #9C7777;
+    color: white;
+    border: 1px solid black;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-bottom: 40px;
+    margin-top: 10px;
+    font-size: 27px;
+    font-weight: 700;
+    border: 1px solid black;
+}
+
+    .add-app-apply-btn:hover {
+        border: 1px solid black;
+        background-color: #ac7777;
+    }

@@ -1,0 +1,48 @@
+﻿.card {
+    width: 250px;
+    height: 290px;
+    /*background: linear-gradient(to bottom, #6a0572, #ff8c42);  purple → orange */
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s ease;
+}
+
+    .card:hover {
+        transform: scale(1.03);
+    }
+
+.card-photo {
+    width: 250px;
+    height: 250px;
+    background-color: #9c8c8c; /* placeholder */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .card-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.card-bottom {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: none;
+}
+
+.card-name {
+    -webkit-text-stroke: 0.5px white; /* subtle outline like in your image */
+}
+
+.card-rating {
+    font-size: 16px;
+}
