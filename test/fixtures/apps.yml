@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  is_game: false
+  dev_id: 1
+  cost: 1.5
+  size: 1.5
+  android_min_version: MyString
+  ram_needed: MyString
+  photo_path: MyString
+  apk_path: MyString
+  downloads_count: 1
+
+two:
+  name: MyString
+  description: MyText
+  is_game: false
+  dev_id: 1
+  cost: 1.5
+  size: 1.5
+  android_min_version: MyString
+  ram_needed: MyString
+  photo_path: MyString
+  apk_path: MyString
+  downloads_count: 1
