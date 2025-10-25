@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\public",
+    "\\public\\images",
+    "\\src",
+    "\\src\\assets",
+    "\\src\\assets\\fonts",
+    "\\src\\Navigation",
+    "\\src\\Pages",
+    "\\src\\Pages\\PageComponents",
+    "\\src\\SideBar",
+    "\\src\\styles"
+  ],
+  "SelectedNode": "\\package.json",
+  "PreviewInSolutionExplorer": false
+}

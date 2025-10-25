@@ -1,0 +1,116 @@
+﻿/*@font-face {
+    font-family: 'Inria-Serif';
+    src: url('../assets/fonts/InriaSerif-Regular.ttf') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}*/
+
+/* Контейнер хедера */
+.header {
+    width: 100%;
+    background-color: #A35757;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    height: 100px;
+    align-content: center;
+    position: fixed; /* прикріплює до верху */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 20px black;
+}
+
+/* Навігаційна панель */
+.nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+}
+
+/* Логотипна частина */
+.logo {
+    display: flex;
+    align-items: center;
+     /* займає 1/3 простору */
+}
+
+.logo-img {
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+}
+
+.logo-text {
+    font-size: 55px;
+}
+
+/* Правий блок */
+.nav-links {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    /* займає 2/3 простору */
+    gap: 30px;
+}
+
+/* Посилання */
+.nav-link {
+    text-decoration: none;
+    color: white;
+    font-size: 25px;
+    transition: color 0.2s ease;
+}
+
+    .nav-link:hover {
+        color: #440b0b;
+    }
+
+/* Dropdown */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-btn {
+    background: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    color: white;
+    outline: none;
+    font-family: 'Inria-Serif';
+}
+
+    .dropdown-btn:focus {
+        outline: none; /* ще раз на всяк випадок */
+    }
+
+    .dropdown-btn:hover {
+        color: #440b0b;
+    }
+
+.dropdown-list {
+    position: absolute;
+    right: 0;
+    margin-top: 8px;
+    list-style: none;
+    background: #BDA5A5;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 6px 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    min-width: 150px;
+}
+
+.dropdown-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+    .dropdown-item:hover {
+        background: #f0f0f0;
+        color: #440b0b;
+    }
