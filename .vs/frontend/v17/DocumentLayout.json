@@ -70,7 +70,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
@@ -86,6 +86,14 @@
               "IsPinned": true
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "package.json",
@@ -93,7 +101,7 @@
               "RelativeDocumentMoniker": "package.json",
               "ToolTip": "P:\\Programming\\ruby_front\\frontend\\package.json",
               "RelativeToolTip": "package.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-10-25T12:48:24.235Z",
               "EditorCaption": ""
@@ -108,8 +116,7 @@
               "RelativeToolTip": "src\\Pages\\Games.css",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-10-25T12:26:46.44Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-25T12:26:46.44Z"
             },
             {
               "$type": "Document",
@@ -121,8 +128,7 @@
               "RelativeToolTip": "src\\Pages\\PageComponents\\FileUpload.css",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-10-25T12:25:35.536Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-25T12:25:35.536Z"
             },
             {
               "$type": "Document",
@@ -134,16 +140,7 @@
               "RelativeToolTip": "src\\Pages\\Apps.jsx",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-10-25T12:24:53.426Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+              "WhenOpened": "2025-10-25T12:24:53.426Z"
             },
             {
               "$type": "Document",
@@ -215,8 +212,7 @@
               "RelativeToolTip": "src\\SideBar\\SideBar.css",
               "ViewState": "AgIAAGYAAAAAAAAAAAAAAIMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-10-14T17:27:51.507Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-14T17:27:51.507Z"
             },
             {
               "$type": "Document",
@@ -240,8 +236,7 @@
               "RelativeToolTip": "src\\Pages\\AddApp.css",
               "ViewState": "AgIAAE4AAAAAAAAAAAAAAGYAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-10-13T09:40:20.148Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-13T09:40:20.148Z"
             },
             {
               "$type": "Document",
