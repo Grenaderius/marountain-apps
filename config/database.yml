@@ -1,22 +1,22 @@
-  default: &default
-      adapter: postgresql
-      encoding: unicode
-      pool: 5 # Кількість з'єднань
-    
-    development:
-      <<: *default
-      database: my_app_development # Ви можете назвати її як завгодно
-      # --- Вам може знадобитися додати це, якщо Postgres запитує пароль ---
-      # username: postgres
-      # password: ваш_пароль
-      # host: localhost
-    
-    test:
-      <<: *default
-      database: my_app_test
-    
-    production:
-      <<: *default
-      # Цей рядок каже Rails брати налаштування БД
-      # зі змінної середовища DATABASE_URL, яку нам дасть Render.
-      url: <%= ENV["DATABASE_URL"] %>
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # Пул для багатопоточності, Render це любить
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  # Ваша локальна база (не для Render)
+  database: my_project_development
+
+test:
+  <<: *default
+  # Ваша тестова база (не для Render)
+  database: my_project_test
+
+production:
+  <<: *default
+  # Цей рядок автоматично підхопить DATABASE_URL,
+  # який ми налаштували на Render.
+  # Нічого більше тут не потрібно.
+  url: <%= ENV["DATABASE_URL"] %>
