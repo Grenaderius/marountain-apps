@@ -1,39 +1,28 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  # Пул для багатопоточності, Render це любить
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
-  # Ваша локальна база (не для Render)
   database: my_project_development
 
 test:
   <<: *default
-  # Ваша тестова база (не для Render)
   database: my_project_test
 
 production:
   <<: *default
-  # Цей рядок автоматично підхопить DATABASE_URL,
-  # який ми налаштували на Render.
-  # (Я також прибрав дублікат url:, який у вас був)
   url: <%= ENV["DATABASE_URL"] %>
 
-  # --- КОНФІГУРАЦІЇ ДЛЯ SOLID GEMS МАЮТЬ БУТИ ТУТ (З ВІДСТУПОМ) ---
-
-  # Це каже SolidCable (WebSockets) використовувати ту саму БД
   cable:
     <<: *default
     url: <%= ENV["DATABASE_URL"] %>
 
-  # Це каже SolidQueue (фонові завдання) використовувати ту саму БД
   queue:
     <<: *default
     url: <%= ENV["DATABASE_URL"] %>
 
-  # Це каже SolidCache (кешування) використовувати ту саму БД
   cache:
     <<: *default
     url: <%= ENV["DATABASE_URL"] %>
