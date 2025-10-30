@@ -16,6 +16,10 @@ production:
   <<: *default
   database: try_app_db
 
+queue:
+  <<: *production
+  database: try_app_db
+
 # ✅ Додай ось це
 cable:
   <<: *default
