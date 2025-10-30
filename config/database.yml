@@ -6,57 +6,15 @@ default: &default
 
 development:
   <<: *default
-  primary:
-    <<: *default
-    database: try_app_db
-  cache:
-    <<: *default
-    database: try_app_db
-  queue:
-    <<: *default
-    database: try_app_db
-  cable:
-    <<: *default
-    database: try_app_db
+  database: try_app_db
 
 test:
   <<: *default
-  primary:
-    <<: *default
-    database: try_app_db
-  cache:
-    <<: *default
-    database: try_app_db
-  queue:
-    <<: *default
-    database: try_app_db
-  cable:
-    <<: *default
-    database: try_app_db
+  database: try_app_db
 
-production: &production
+production:
   <<: *default
-  primary:
-    <<: *default
-    database: myapp_production
-    username: <%= ENV["DB_USERNAME"] %>
-    password: <%= ENV["DB_PASSWORD"] %>
-    host: <%= ENV["DB_HOST"] %>
-  cache:
-    <<: *default
-    database: myapp_cache_production
-    username: <%= ENV["DB_USERNAME"] %>
-    password: <%= ENV["DB_PASSWORD"] %>
-    host: <%= ENV["DB_HOST"] %>
-  queue:
-    <<: *default
-    database: myapp_queue_production
-    username: <%= ENV["DB_USERNAME"] %>
-    password: <%= ENV["DB_PASSWORD"] %>
-    host: <%= ENV["DB_HOST"] %>
-  cable:
-    <<: *default
-    database: myapp_cable_production
-    username: <%= ENV["DB_USERNAME"] %>
-    password: <%= ENV["DB_PASSWORD"] %>
-    host: <%= ENV["DB_HOST"] %>
+  database: myapp_production
+  username: <%= ENV["DB_USERNAME"] %>
+  password: <%= ENV["DB_PASSWORD"] %>
+  host: <%= ENV["DB_HOST"] %>
