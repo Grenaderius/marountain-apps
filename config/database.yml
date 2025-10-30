@@ -6,15 +6,9 @@ default: &default
 
 development:
   <<: *default
-  database: try_app_db
 
 test:
   <<: *default
-  database: try_app_db
 
 production:
   <<: *default
-  database: myapp_production
-  username: <%= ENV["DB_USERNAME"] %>
-  password: <%= ENV["DB_PASSWORD"] %>
-  host: <%= ENV["DB_HOST"] %>
