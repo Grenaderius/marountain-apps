@@ -2,27 +2,21 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  url: <%= ENV["DATABASE_URL"] %>
 
 development:
   <<: *default
-  database: my_project_development
+  database: try_app_db
 
 test:
   <<: *default
-  database: my_project_test
+  database: try_app_db
 
 production:
   <<: *default
-  url: <%= ENV["DATABASE_URL"] %>
+  database: try_app_db
 
-  cable:
-    <<: *default
-    url: <%= ENV["DATABASE_URL"] %>
-
-  queue:
-    <<: *default
-    url: <%= ENV["DATABASE_URL"] %>
-
-  cache:
-    <<: *default
-    url: <%= ENV["DATABASE_URL"] %>
+# ✅ Додай ось це
+cable:
+  <<: *default
+  database: try_app_db
