@@ -1,38 +1,36 @@
-﻿
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import AppCard from "./AppCard";
 
 const AppCardsList = () => {
-    const AppCardsList = () => {
-        const [items, setItems] = useState([]);
-        const [error, setError] = useState(null);
+    const [items, setItems] = useState([]);
+    const [error, setError] = useState(null);
 
-        const API_URL = import.meta.env.VITE_API_URL;
+    const API_URL = import.meta.env.VITE_API_URL;
 
-        useEffect(() => {
-            const fetchApps = async () => {
-                try {
-                    const res = await fetch(`${API_URL}/apps`);
-                    if (!res.ok) {
-                        throw new Error(`Server responded with ${res.status}`);
-                    }
-                    const data = await res.json();
-                    setItems(data);
-                } catch (err) {
-                    console.error("Failed to fetch apps:", err);
-                    setError("Could not load apps. Please try again later.");
+    useEffect(() => {
+        const fetchApps = async () => {
+            try {
+                const res = await fetch(`${API_URL}/apps`);
+                if (!res.ok) {
+                    throw new Error(`Server responded with ${res.status}`);
                 }
-            };
+                const data = await res.json();
+                setItems(data);
+            } catch (err) {
+                console.error("Failed to fetch apps:", err);
+                setError("Could not load apps. Please try again later.");
+            }
+        };
 
-            fetchApps();
-        }, [API_URL]);
+        fetchApps();
+    }, [API_URL]);
 
-        if (error) return <p className="error">{error}</p>;
-        if (items.length === 0) return <p>Loading apps...</p>;
+    if (error) return <p className="error">{error}</p>;
+    if (items.length === 0) return <p>Loading apps...</p>;
 
     return (
         <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
-            {items && items.map((item) => (
+            {items.map((item) => (
                 <AppCard
                     key={item.id || 0}
                     id={item.id || 0}
