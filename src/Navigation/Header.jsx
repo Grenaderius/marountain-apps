@@ -46,7 +46,7 @@ export default function Header() {
                                 <Link to="/add-app" style={{ textDecoration: "none", color: "inherit" }}><li className="dropdown-item">Add app</li></Link>
                                 <Link to="/my-apps" style={{ textDecoration: "none", color: "inherit" }}><li className="dropdown-item">View uploaded apps</li></Link>
                                 {/*gap */}
-                                <Link to="/my-apps" style={{ textDecoration: "none", color: "inherit" }}><li className="dropdown-item">login</li></Link>
+                                <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}><li className="dropdown-item">login</li></Link>
                             </ul>
                         )}
                     </div>
