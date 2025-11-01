@@ -44,7 +44,7 @@ export default function Header() {
                         {open && (
                             <ul className="dropdown-list">
                                 <Link to="/add-app" style={{ textDecoration: "none", color: "inherit" }}><li className="dropdown-item">Add app</li></Link>
-                                <li className="dropdown-item">View uploaded apps</li>
+                                <Link to="/my-apps" style={{ textDecoration: "none", color: "inherit" }}><li className="dropdown-item">View uploaded apps</li></Link>
                                 {/*gap */}
                                 <li className="dropdown-item">Login/exit</li>
                             </ul>

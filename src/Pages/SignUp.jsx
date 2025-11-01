@@ -9,29 +9,39 @@ const SignUp = () => {
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
+    const API_URL = import.meta.env.VITE_API_URL; 
+
     const handleSignUp = async () => {
+        setError(""); 
+
         if (pass !== repeatPass) {
             setError("Passwords do not match");
             return;
         }
 
         try {
-            const response = await fetch("http://localhost:3000/users", {
+            const response = await fetch(`${API_URL}/users`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ user: { email, password: pass } }),
             });
 
-            const data = await response.json();
+            const data = await response.json().catch(() => null);
 
-            if (response.ok) {
-                localStorage.setItem("user", JSON.stringify(data.user));
-                navigate("/login");
-            } else {
-                setError(data.errors ? data.errors.join(", ") : "Registration failed");
+            if (!response.ok) {
+                setError(
+                    data?.errors
+                        ? data.errors.join(", ")
+                        : data?.error || "Registration failed"
+                );
+                return;
             }
+
+            localStorage.setItem("user", JSON.stringify(data.user));
+            navigate("/login");
         } catch (err) {
-            setError("Server error");
+            console.error("SignUp error:", err);
+            setError("Server error. Try again later.");
         }
     };
 
