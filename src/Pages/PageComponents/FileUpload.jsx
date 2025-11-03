@@ -1,23 +1,24 @@
 ﻿import React, { useState } from "react";
-import "./FileUpload.css"; // підключаємо стилі
+import "./FileUpload.css";
 
-export default function FileBoxes() {
+export default function FileUpload({ onFilesSelected }) {
     const [file, setFile] = useState(null);
     const [image, setImage] = useState(null);
 
     const handleFileChange = (e) => {
-        const selectedFile = e.target.files[0];
-        if (selectedFile) setFile(selectedFile);
+        const f = e.target.files[0];
+        setFile(f);
+        onFilesSelected(f, image);
     };
 
     const handleImageChange = (e) => {
-        const selectedImage = e.target.files[0];
-        if (selectedImage) setImage(selectedImage);
+        const img = e.target.files[0];
+        setImage(img);
+        onFilesSelected(file, img);
     };
 
     return (
         <div className="upload-container">
-            {/* 📄 Блок для файлу */}
             <div className="upload-box">
                 <input
                     type="file"
@@ -29,20 +30,15 @@ export default function FileBoxes() {
                 <label htmlFor="fileInput" className="upload-label">
                     {file ? (
                         <div className="file-preview">
-                            <img
-                                src="/file-icon.png"
-                                alt="file icon"
-                                className="file-icon"
-                            />
+                            <img src="/file-icon.png" alt="file icon" className="file-icon" />
                             <p>{file.name}</p>
                         </div>
                     ) : (
-                        <span>Choose file(.apk)</span>
+                        <span>Choose file (.apk)</span>
                     )}
                 </label>
             </div>
 
-            {/* 🖼️ Блок для фото */}
             <div className="upload-box">
                 <input
                     type="file"
@@ -59,7 +55,7 @@ export default function FileBoxes() {
                             className="image-preview"
                         />
                     ) : (
-                        <span>Choose a photo(250/250px)</span>
+                        <span>Choose a photo (250×250px)</span>
                     )}
                 </label>
             </div>
