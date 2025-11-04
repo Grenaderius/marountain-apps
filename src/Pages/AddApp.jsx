@@ -65,7 +65,7 @@ const AddApp = () => {
                 icon_url: imageUrl,
             };
 
-            const response = await fetch(`${API_URL}/users`, {
+            const response = await fetch(`${API_URL}/apps`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
