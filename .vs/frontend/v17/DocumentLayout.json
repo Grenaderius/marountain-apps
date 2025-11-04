@@ -65,6 +65,14 @@
           "SelectedChildIndex": 5,
           "Children": [
             {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "FileUpload.jsx",
@@ -72,18 +80,10 @@
               "RelativeDocumentMoniker": "src\\Pages\\PageComponents\\FileUpload.jsx",
               "ToolTip": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\PageComponents\\FileUpload.jsx",
               "RelativeToolTip": "src\\Pages\\PageComponents\\FileUpload.jsx",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAQwBIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
               "WhenOpened": "2025-11-03T13:13:57.034Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
             },
             {
               "$type": "Document",
@@ -117,7 +117,7 @@
               "RelativeDocumentMoniker": "src\\Pages\\AddApp.jsx",
               "ToolTip": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\AddApp.jsx",
               "RelativeToolTip": "src\\Pages\\AddApp.jsx",
-              "ViewState": "AgIAAIoAAAAAAAAAAAAAAJwAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
               "WhenOpened": "2025-11-01T15:40:54.629Z",
               "EditorCaption": ""
@@ -154,7 +154,7 @@
               "RelativeDocumentMoniker": "src\\Pages\\SignUp.jsx",
               "ToolTip": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\SignUp.jsx",
               "RelativeToolTip": "src\\Pages\\SignUp.jsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAApAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
               "WhenOpened": "2025-11-01T15:34:37.332Z",
               "EditorCaption": ""

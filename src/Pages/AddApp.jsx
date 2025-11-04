@@ -20,6 +20,8 @@ const AddApp = () => {
     const CLOUD_NAME = "files_upload_preset";
     const UPLOAD_PRESET = "unsigned_upload";
 
+    const API_URL = import.meta.env.VITE_API_URL; 
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setForm((prev) => ({
@@ -63,7 +65,7 @@ const AddApp = () => {
                 icon_url: imageUrl,
             };
 
-            const response = await fetch("http://localhost:3000/api/apps", {
+            const response = await fetch(`${API_URL}/users`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
