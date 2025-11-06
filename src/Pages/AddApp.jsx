@@ -17,7 +17,7 @@ const AddApp = () => {
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const CLOUD_NAME = "files_upload_preset";
+    const CLOUD_NAME = "dwrbmcdsq";
     const UPLOAD_PRESET = "unsigned_upload";
 
     const API_URL = import.meta.env.VITE_API_URL; 
