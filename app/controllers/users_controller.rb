@@ -1,27 +1,23 @@
 class UsersController < ApplicationController
-  # Повертає всіх користувачів
+  skip_before_action :verify_authenticity_token
+
   def index
-    users = User.all
-    render json: users
+    render json: User.all
   end
 
-  # Повертає конкретного користувача за id
   def show
     user = User.find(params[:id])
     render json: user, include: :apps
   end
 
-  # Створює нового користувача (реєстрація)
-def create
-  Rails.logger.info "USER PARAMS: #{user_params.inspect}"
-  user = User.new(user_params)
-
-  if user.save
-    render json: { message: "User created successfully", user: user }, status: :created
-  else
-    render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+  def create
+    user = User.new(user_params)
+    if user.save
+      render json: { user: user }, status: :created
+    else
+      render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+    end
   end
-end
 
   private
 
