@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import "./SignUp.css";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -9,10 +9,15 @@ const SignUp = () => {
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    const API_URL = import.meta.env.VITE_API_URL; 
+    const API_URL = import.meta.env.VITE_API_URL;
 
     const handleSignUp = async () => {
-        setError(""); 
+        setError("");
+
+        if (!email.trim() || !pass.trim() || !repeatPass.trim()) {
+            setError("Please fill in all fields");
+            return;
+        }
 
         if (pass !== repeatPass) {
             setError("Passwords do not match");
@@ -38,6 +43,7 @@ const SignUp = () => {
             }
 
             localStorage.setItem("user", JSON.stringify(data.user));
+
             navigate("/login");
         } catch (err) {
             console.error("SignUp error:", err);
@@ -53,7 +59,7 @@ const SignUp = () => {
 
             <div className="login-inputs-div">
                 <input
-                    type="text"
+                    type="email"
                     className="login-login-input"
                     placeholder="Email"
                     value={email}
@@ -62,14 +68,14 @@ const SignUp = () => {
                 <input
                     type="password"
                     className="login-pass-input"
-                    placeholder="Pass"
+                    placeholder="Password"
                     value={pass}
                     onChange={(e) => setPass(e.target.value)}
                 />
                 <input
                     type="password"
                     className="login-pass-input"
-                    placeholder="Repeat pass"
+                    placeholder="Repeat password"
                     value={repeatPass}
                     onChange={(e) => setRepeatPass(e.target.value)}
                 />
