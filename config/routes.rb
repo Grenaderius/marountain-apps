@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :comments, only: [:index, :create]
 
   post "/login", to: "sessions#create"
+  post '/upload', to: 'uploads#create'
 
   namespace :api do
     namespace :v1 do
