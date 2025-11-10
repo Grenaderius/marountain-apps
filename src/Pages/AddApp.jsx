@@ -30,17 +30,19 @@ const AddApp = () => {
         }));
     };
 
-    const uploadToCloudinary = async (file) => {
+    const uploadToDrive = async (file) => {
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("upload_preset", UPLOAD_PRESET);
 
-        const res = await fetch(
-            `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`,
-            { method: "POST", body: formData }
-        );
+        const res = await fetch(`${API_URL}/upload`, {
+            method: "POST",
+            body: formData,
+        });
+
+        if (!res.ok) throw new Error("Drive upload failed");
+
         const data = await res.json();
-        return data.secure_url;
+        return data.webContentLink; // або webViewLink
     };
 
     const handleSubmit = async () => {
@@ -52,13 +54,13 @@ const AddApp = () => {
         setLoading(true);
 
         try {
-            // Завантажуємо обидва файли
+            // Завантажуємо у Google Drive
             const [fileUrl, imageUrl] = await Promise.all([
-                uploadToCloudinary(file),
-                uploadToCloudinary(image),
+                uploadToDrive(file),
+                uploadToDrive(image),
             ]);
 
-            // Формуємо запит
+            // Формуємо payload для бекенду
             const payload = {
                 ...form,
                 apk_url: fileUrl,

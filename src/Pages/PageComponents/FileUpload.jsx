@@ -11,7 +11,7 @@ export default function FileUpload({ onFilesSelected }) {
         onFilesSelected(f, image);
     };
 
-    const handleImageChange = (e) => {
+    const handleImageChange = (e) => {  
         const img = e.target.files[0];
         setImage(img);
         onFilesSelected(file, img);
