@@ -22,7 +22,15 @@ class GoogleDriveService
 
   def upload_file(file_path, file_name, mime_type, folder_id = nil)
     metadata = { name: file_name }
-    metadata[:parents] = [folder_id] if folder_id
+
+    if folder_id
+      begin
+        @drive_service.get_file(folder_id, fields: 'id')
+        metadata[:parents] = [folder_id]
+      rescue Google::Apis::ClientError => e
+        puts "⚠️  Warning: folder_id '#{folder_id}' недоступний або не існує. Завантаження у корінь."
+      end
+    end
 
     file = @drive_service.create_file(
       metadata,
@@ -42,5 +50,11 @@ class GoogleDriveService
       view_link: file.web_view_link,
       download_link: file.web_content_link
     }
+  rescue Google::Apis::Error => e
+    puts "❌ Google API error: #{e.message}"
+    raise "Drive upload failed"
+  rescue => e
+    puts "❌ Unexpected error: #{e.message}"
+    raise e
   end
 end
