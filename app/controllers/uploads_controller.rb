@@ -23,8 +23,10 @@ class UploadsController < ApplicationController
       webViewLink: result[:view_link],
       webContentLink: result[:download_link]
     }
-  rescue => e
-    Rails.logger.error("Drive upload failed: #{e.message}")
-    render json: { error: 'Upload failed' }, status: :internal_server_error
+
+    rescue => e
+      puts "❌ Something went wrong: #{e.message}"
+      puts e.backtrace
+      render json: { error: e.message }, status: :internal_server_error
   end
 end
