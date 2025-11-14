@@ -1,10 +1,16 @@
 ﻿import { useState, useRef } from "react";
 import "./SideBar.css";
+import GeminiChat from "../GeminiChatCheckingCompitability/GeminiChat";
+
 
 export default function Sidebar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const user = JSON.parse(localStorage.getItem("user"));
+    const [chatOpen, setChatOpen] = useState(false);
+
+    const [showChat, setShowChat] = useState(false);
+    const [aiPhoneData, setAiPhoneData] = useState(null);
 
   return (
     <aside className="sidebar">
@@ -39,8 +45,20 @@ export default function Sidebar() {
 
 
           <div className="sidebar-filter-section">
-              <button className="sidebar-check-compitability-btn">Check compatibility</button>
+              <button
+                  className="sidebar-check-compitability-btn"
+                  onClick={() => setShowChat(!showChat)}
+              >
+                  Check compatibility
+              </button>
+
+
           </div>
+
+          {showChat && (
+              <GeminiChat onResult={(data) => setAiPhoneData(data.phone)} />
+          )}
+
 
           <div className="sidebar-comp-checkbox">
               <label>

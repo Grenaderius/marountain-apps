@@ -7,12 +7,10 @@
     position: relative;
     height: 100vh;
     width: 100%;
-    overflow: hidden;
 }
 
-/* фон на всю сторінку */
 .games-bg {
-    position: fixed; /* фіксований на всю viewport */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -24,7 +22,6 @@
     z-index: 0;
 }
 
-/* overlay */
 .games-overlay {
     position: fixed;
     top: 0;
@@ -35,28 +32,22 @@
     z-index: 1;
 }
 
-/* flex-контейнер для sidebar + main */
 .games-layout {
     display: flex;
     flex-direction: row;
     width: 100%;
     height: 100%;
     position: relative;
-    z-index: 10; /* поверх фонів */
+    z-index: 10;
 }
 
-/* Sidebar */
-.sidebar {
-    width: 250px; /* фіксована ширина */
-    height: 100%;
-}
-
-/* Main */
 .games-content {
-    flex: 1; /* займає всю решту ширини */  
+    flex: 1;
     height: 100%;
     padding: 24px;
     color: white;
     background: transparent;
     margin-top: 80px;
+        overflow-y: auto;
+
 }

@@ -1,0 +1,81 @@
+﻿.gemini-chat {
+    display: flex;
+    margin-top: 2px;
+    margin-left: 2px;
+    flex-direction: column;
+    width: 98%;
+    border: 1px solid black;
+    border-radius: 8px;
+    background: white;
+    /* ❗ Чат НЕ прокручується зовні */
+    height: 420px;
+    overflow: hidden;
+}
+
+    .gemini-chat p {
+        color: black;
+        text-align: center;
+    }
+
+    .gemini-chat-messages {
+        flex: 1; /* займає весь доступний простір */
+        overflow-y: auto; /* єдиний скрол в чаті */
+        margin-bottom: 10px;
+        padding-right: 8px;
+    }
+
+.msg {
+    margin-left: 2px;
+    padding: 6px 10px;
+    margin: 5px 0;
+    border-radius: 6px;
+    max-width: 100%;
+    font-size: 14px;
+    white-space: pre-line;
+}
+
+    .msg.user {
+        background: #BDA5A5;
+        margin-left: auto;
+        margin-left: 2px;
+    }
+
+    .msg.bot {
+        background: #aaa;
+        margin-right: auto;
+        margin-left: 2px;
+    }
+
+.gemini-chat-input {
+    display: flex;
+    width: 100%;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+    .gemini-chat-input input {
+        flex: 1;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #aaa;
+        border-radius: 6px;
+        box-sizing: border-box;
+    }
+        
+        .gemini-chat-input input:focus {
+            scroll-margin-bottom: 0px;
+        }
+
+    .gemini-chat-input button {
+        padding: 8px 10px;
+        background: #9C7777; 
+        color: white;
+        border: 1px solid black;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+        .gemini-chat-input button:hover {
+            border-color: black;
+        }
