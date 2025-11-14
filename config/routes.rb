@@ -12,6 +12,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :api do
+    post "gemini-compatibility", to: "gemini#compatibility"
+  end
+
   root "home#index"
 
   get "*path", to: "home#index", constraints: ->(req) { !req.xhr? && req.format.html? }
