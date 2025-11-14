@@ -1,13 +1,14 @@
-require "google/generativeai"
+require "gemini-ai"
 
-class Api::GeminiController < ApplicationController
+class Api::V1::GeminiController < ApplicationController
   protect_from_forgery with: :null_session
 
   def compatibility
-    message = params[:message].to_s
+    message = params[:message].to_s.strip
 
-    client = Google::GenerativeAI::Client.new(api_key: ENV["GEMINI_API_KEY"])
-    model  = client.model("gemini-pro")
+    client = Gemini.new(
+      api_key: ENV["GEMINI_API_KEY"]
+    )
 
     prompt = <<~PROMPT
       Ти — помічник, що аналізує моделі смартфонів.
@@ -26,6 +27,7 @@ class Api::GeminiController < ApplicationController
 
       Якщо користувач ще нічого не ввів або це перше повідомлення —
       поверни:
+
       {
         "response": "Введіть модель свого телефону.",
         "phone": {
@@ -42,11 +44,21 @@ class Api::GeminiController < ApplicationController
       Знайди характеристики телефону, навіть якщо модель написана з помилками.
     PROMPT
 
-    result = model.generate_content(prompt)
-    output = result.output_text
+    # ✨ Генерація відповіді (правильний метод геміні-ai)
+    raw = client.generate(
+      model: "gemini-1.5-flash",
+      prompt: prompt
+    )
 
-    json = JSON.parse(output) rescue { error: "AI returned invalid JSON" }
+    text = raw.dig("candidates", 0, "content", "parts", 0, "text") rescue ""
 
-    render json: json
+    parsed =
+      begin
+        JSON.parse(text)
+      rescue
+        { error: "AI returned invalid JSON", raw: text }
+      end
+
+    render json: parsed
   end
 end
