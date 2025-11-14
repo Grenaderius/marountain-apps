@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
-resources :apps
+  resources :apps
   resources :users, only: [:index, :show, :create]
   resources :comments, only: [:index, :create]
+
+  post "/login", to: "sessions#create"
+  post '/upload', to: 'uploads#create'
 
   namespace :api do
     namespace :v1 do
@@ -9,10 +12,11 @@ resources :apps
     end
   end
 
-  post "/login", to: "sessions#create"
+  namespace :api do
+    post "gemini-compatibility", to: "gemini#compatibility"
+  end
 
   root "home#index"
 
-  # щоб React міг обробляти свої маршрути
   get "*path", to: "home#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 end
