@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    post "gemini-compatibility", to: "gemini#compatibility"
+    post "/gemini-compatibility", to: "gemini#compatibility"
   end
 
   root "home#index"
