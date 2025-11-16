@@ -4,12 +4,10 @@
     "\\public",
     "\\public\\images",
     "\\src",
-    "\\src\\assets\\fonts",
     "\\src\\GeminiChatCheckingCompitability",
     "\\src\\Pages",
     "\\src\\Pages\\PageComponents",
     "\\src\\SideBar"
   ],
-  "SelectedNode": "\\src\\index.css",
   "PreviewInSolutionExplorer": false
 }

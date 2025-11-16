@@ -9,6 +9,7 @@ export default function GeminiChat({ onResult }) {
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
     const chatEndRef = useRef(null);
+    const API_URL = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         const container = chatEndRef.current?.parentElement;
@@ -27,7 +28,7 @@ export default function GeminiChat({ onResult }) {
         setLoading(true);
 
         try {
-            const res = await fetch("/api/gemini-compatibility", {
+            const res = await fetch(`${API_URL}/gemini-compatibility`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message: userMessage })

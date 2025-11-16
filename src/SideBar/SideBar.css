@@ -1,6 +1,6 @@
 ﻿.sidebar {
     width: 350px;
-    min-height: 100vh; /* 🔥 Фіксована висота */
+    min-height: 200vh; /* 🔥 Фіксована висота */
     padding-top: 90px;
     background-color: #BDA5A5;
     border-right: 1px solid #ddd;
