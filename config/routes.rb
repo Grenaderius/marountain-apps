@@ -15,6 +15,5 @@ Rails.application.routes.draw do
 
   root "home#index"
 
-  # React fallback (must be LAST!)
   get "*path", to: "home#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 end
