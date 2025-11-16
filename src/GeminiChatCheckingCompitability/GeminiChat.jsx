@@ -28,7 +28,7 @@ export default function GeminiChat({ onResult }) {
         setLoading(true);
 
         try {
-            const res = await fetch(`${API_URL}/gemini-compatibility`, {
+            const res = await fetch(`${API_URL}/api/v1/gemini-compatibility`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message: userMessage })
