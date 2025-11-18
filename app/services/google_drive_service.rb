@@ -26,6 +26,7 @@ class GoogleDriveService
     raise "Missing GOOGLE_DRIVE_FOLDER_ID ENV variable" unless DEFAULT_FOLDER_ID
 
   # Перевіряємо чи існує папка
+  puts ENV["GOOGLE_SERVICE_ACCOUNT_JSON"]
   puts "DEBUG: Folder ID = #{DEFAULT_FOLDER_ID}"
   begin
     @drive_service.get_file(DEFAULT_FOLDER_ID, fields: 'id')
@@ -33,7 +34,7 @@ class GoogleDriveService
   rescue => e
     puts "DEBUG: Folder_exists = NO, ERROR = #{e.message}"
   end
-  
+
     begin
       @drive_service.get_file(DEFAULT_FOLDER_ID, fields: 'id')
     rescue Google::Apis::ClientError
