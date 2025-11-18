@@ -6,6 +6,8 @@ require 'json'
 class GoogleDriveService
   DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.file'
 
+  DEFAULT_FOLDER_ID = ENV['GOOGLE_DRIVE_FOLDER_ID']
+
   def initialize
     json_key = ENV['GOOGLE_SERVICE_ACCOUNT_JSON']
     raise "Missing GOOGLE_SERVICE_ACCOUNT_JSON ENV variable" unless json_key
@@ -20,17 +22,20 @@ class GoogleDriveService
     @drive_service.authorization = @auth
   end
 
-  def upload_file(file_path, file_name, mime_type, folder_id = nil)
-    metadata = { name: file_name }
+  def upload_file(file_path, file_name, mime_type)
+    raise "Missing GOOGLE_DRIVE_FOLDER_ID ENV variable" unless DEFAULT_FOLDER_ID
 
-    if folder_id
-      begin
-        @drive_service.get_file(folder_id, fields: 'id')
-        metadata[:parents] = [folder_id]
-      rescue Google::Apis::ClientError => e
-        puts "⚠️  Warning: folder_id '#{folder_id}' недоступний або не існує. Завантаження у корінь."
-      end
+    # Перевіряємо чи існує папка
+    begin
+      @drive_service.get_file(DEFAULT_FOLDER_ID, fields: 'id')
+    rescue Google::Apis::ClientError
+      raise "❌ Folder with ID #{DEFAULT_FOLDER_ID} does not exist!"
     end
+
+    metadata = {
+      name: file_name,
+      parents: [DEFAULT_FOLDER_ID]
+    }
 
     file = @drive_service.create_file(
       metadata,
@@ -53,8 +58,5 @@ class GoogleDriveService
   rescue Google::Apis::Error => e
     puts "❌ Google API error: #{e.message}"
     raise "Drive upload failed"
-  rescue => e
-    puts "❌ Unexpected error: #{e.message}"
-    raise e
   end
 end
