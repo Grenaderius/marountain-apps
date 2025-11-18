@@ -22,7 +22,7 @@ class GoogleDriveService
     @drive_service.authorization = @auth
   end
 
-  def upload_file(file_path, file_name, mime_type)
+  def upload_file(file_path, file_name, mime_type, folder_id = nil)
     raise "Missing GOOGLE_DRIVE_FOLDER_ID ENV variable" unless DEFAULT_FOLDER_ID
 
     # Перевіряємо чи існує папка
