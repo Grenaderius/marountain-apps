@@ -25,7 +25,15 @@ class GoogleDriveService
   def upload_file(file_path, file_name, mime_type, folder_id = nil)
     raise "Missing GOOGLE_DRIVE_FOLDER_ID ENV variable" unless DEFAULT_FOLDER_ID
 
-    # Перевіряємо чи існує папка
+  # Перевіряємо чи існує папка
+  puts "DEBUG: Folder ID = #{DEFAULT_FOLDER_ID}"
+  begin
+    @drive_service.get_file(DEFAULT_FOLDER_ID, fields: 'id')
+    puts "DEBUG: Folder_exists = YES"
+  rescue => e
+    puts "DEBUG: Folder_exists = NO, ERROR = #{e.message}"
+  end
+  
     begin
       @drive_service.get_file(DEFAULT_FOLDER_ID, fields: 'id')
     rescue Google::Apis::ClientError
