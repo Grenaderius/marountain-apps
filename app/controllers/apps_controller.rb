@@ -1,7 +1,9 @@
 class AppsController < ApplicationController
   # GET /apps
   def index
-    apps = App.all.map do |app|
+    apps = App.all.includes(:comments)
+
+    result = apps.map do |app|
       {
         id: app.id,
         name: app.name,
@@ -9,13 +11,21 @@ class AppsController < ApplicationController
         rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0
       }
     end
-    render json: apps
+
+    render json: result
   end
 
   # GET /apps/:id
   def show
-    app = App.find(params[:id])
-    render json: app, include: :comments
+    app = App.includes(comments: :user, dev: []).find(params[:id])
+
+    render json: app, include: {
+      dev: { only: [:id, :name] },
+      comments: {
+        include: { user: { only: [:id, :name] } },
+        only: [:id, :comment, :rating, :created_at]
+      }
+    }
   end
 
   # POST /apps
@@ -32,7 +42,7 @@ class AppsController < ApplicationController
   def update
     app = App.find(params[:id])
     if app.update(app_params)
-      render json: app, status: :ok
+      render json: app
     else
       render json: { errors: app.errors.full_messages }, status: :unprocessable_entity
     end
@@ -40,8 +50,7 @@ class AppsController < ApplicationController
 
   # DELETE /apps/:id
   def destroy
-    app = App.find(params[:id])
-    app.destroy
+    App.find(params[:id]).destroy
     head :no_content
   end
 
