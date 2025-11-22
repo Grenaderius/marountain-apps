@@ -6,7 +6,6 @@ const ViewUploadedApps = () => {
   const [apps, setApps] = useState([]);
   const navigate = useNavigate();
 
-  // Завантаження додатків користувача
   useEffect(() => {
     const fetchApps = async () => {
       try {

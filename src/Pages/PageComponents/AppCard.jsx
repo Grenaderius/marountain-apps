@@ -6,7 +6,7 @@ const AppCard = ({ id, name, rating, photo }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/details/${id}`);
+        navigate(`/apps/${id}`);
     };
 
     return (

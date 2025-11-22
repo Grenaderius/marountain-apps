@@ -42,7 +42,7 @@ const AddApp = () => {
         if (!res.ok) throw new Error("Drive upload failed");
 
         const data = await res.json();
-        return data.webContentLink; // або webViewLink
+        return data.webContentLink;
     };
 
     const handleSubmit = async () => {
@@ -54,13 +54,11 @@ const AddApp = () => {
         setLoading(true);
 
         try {
-            // Завантажуємо у Google Drive
             const [fileUrl, imageUrl] = await Promise.all([
                 uploadToDrive(file),
                 uploadToDrive(image),
             ]);
 
-            // Формуємо payload для бекенду
             const payload = {
                 ...form,
                 apk_url: fileUrl,

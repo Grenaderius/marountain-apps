@@ -1,0 +1,157 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    background: transparent;
+}
+
+.app-details-page {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.app-details-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("/images/main-background.png");
+    background-size: cover;
+    background-position: center;
+    filter: blur(6px);
+    z-index: 0;
+}
+
+.app-details-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    z-index: 1;
+}
+
+.app-details-layout {
+    position: relative;
+    z-index: 2;
+    color: white;
+    padding: 40px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.app-details-header {
+    font-size: 4vh;
+    text-align: center;
+    margin-top: 90px;
+}
+
+.app-details-top {
+    margin-top: 40px;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.app-details-icon {
+    width: 250px;
+    height: 250px;
+    
+    border: 1px solid black;
+    object-fit: cover;
+}
+
+.app-details-info p {
+    font-size: 22px;
+    margin: 5px 0;
+}
+
+.app-details-info span {
+    font-weight: bold;
+}
+
+.app-details-download {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 30px;
+    background: #9C7777;
+    color: white;
+    text-decoration: none;
+    font-size: 22px;
+    border-radius: 15px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+    .app-details-download:hover {
+        background: #ac7777;
+    }
+
+.app-details-description-section {
+    margin-top: 50px;
+}
+
+    .app-details-description-section h2 {
+        font-size: 28px;
+    }
+
+    .app-details-description-section p {
+        font-size: 20px;
+    }
+
+.app-details-comments-section {
+    margin-top: 60px;
+}
+
+.app-details-write-comment textarea {
+    width: 100%;
+    height: 120px;
+    border-radius: 10px;
+    font-size: 18px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.app-details-write-comment select {
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.app-details-write-comment button {
+    padding: 12px 30px;
+    background: #9C7777;
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+    .app-details-write-comment button:hover {
+        background: #ac7777;
+    }
+
+.app-details-comment {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.comment-rating {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.comment-text {
+    font-size: 18px;
+
+}

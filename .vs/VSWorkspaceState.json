@@ -5,9 +5,11 @@
     "\\public\\images",
     "\\src",
     "\\src\\GeminiChatCheckingCompitability",
+    "\\src\\Navigation",
     "\\src\\Pages",
     "\\src\\Pages\\PageComponents",
     "\\src\\SideBar"
   ],
+  "SelectedNode": "\\src\\Pages\\ViewUploadedApps.jsx",
   "PreviewInSolutionExplorer": false
 }
