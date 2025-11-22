@@ -11,6 +11,10 @@ const AppDetails = () => {
     const [commentText, setCommentText] = useState("");
     const [rating, setRating] = useState(5);
 
+    // Поточний авторизований юзер
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    // Завантаження інформації про додаток
     useEffect(() => {
         fetch(`${API_URL}/apps/${id}`)
             .then(res => res.json())
@@ -20,23 +24,26 @@ const AppDetails = () => {
             });
     }, [id]);
 
+    // Додавання коментаря
     const sendComment = async () => {
-        if (!commentText.trim()) return alert("Write comment first!");
+        if (!user) return alert("You must be logged in to comment!");
+        if (!commentText.trim()) return alert("Write a comment first!");
 
         const res = await fetch(`${API_URL}/comments`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                app_id: id,
-                user_id: 1, // тимчасово, замінити після авторизації
-                comment: commentText,
-                rating
+                comment: {
+                    app_id: id,
+                    user_id: user.id,
+                    comment: commentText,
+                    rating
+                }
             })
         });
 
         const data = await res.json();
 
-        // додаємо новий коментар з імʼям користувача
         setApp(prev => ({
             ...prev,
             comments: [...prev.comments, data]
@@ -44,6 +51,26 @@ const AppDetails = () => {
 
         setCommentText("");
         setRating(5);
+    };
+
+    // Видалення коментаря
+    const deleteComment = async (commentId) => {
+        if (!user) return alert("You must be logged in!");
+
+        const res = await fetch(`${API_URL}/comments/${commentId}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user_id: user.id })
+        });
+
+        if (res.ok) {
+            setApp(prev => ({
+                ...prev,
+                comments: prev.comments.filter(c => c.id !== commentId)
+            }));
+        } else {
+            alert("You cannot delete this comment!");
+        }
     };
 
     if (loading) return <h1>Loading...</h1>;
@@ -57,10 +84,10 @@ const AppDetails = () => {
                 <h1 className="app-details-header">{app.name}</h1>
 
                 <div className="app-details-top">
-                    <img src={app.photo_path} className="app-details-icon" />
+                    <img src={app.photo_path} className="app-details-icon" alt="App icon" />
 
                     <div className="app-details-info">
-                        {/* Рейтинг */}
+                        {/* Rating */}
                         <p>
                             <span>Rating:</span>{" "}
                             {app.comments.length > 0
@@ -72,20 +99,21 @@ const AppDetails = () => {
                             ★
                         </p>
 
-                        {/* Ціна */}
                         <p><span>Price:</span> {app.cost ? `${app.cost} USD` : "Free"}</p>
-
-                        {/* Автор додатку */}
                         <p><span>Uploaded by:</span> {app.dev?.name || "Unknown"}</p>
-
                         <p><span>Minimal Android version:</span> {app.android_min_version}</p>
                         <p><span>Minimal RAM needed:</span> {app.ram_needed} GB</p>
                         <p><span>Max size needed:</span> {app.size} MB</p>
 
-                        <a className="app-details-download" href={app.apk_path} target="_blank">
-                            Download APK
-                        </a>
+                        
                     </div>
+                </div>
+
+                <div className="app-details-download-section">
+                    <button className="app-details-download" href={app.apk_path} target="_blank">
+                        Download APK
+                    </button>
+
                 </div>
 
                 <div className="app-details-description-section">
@@ -104,7 +132,10 @@ const AppDetails = () => {
                             placeholder="Write your feedback..."
                         />
 
-                        <select value={rating} onChange={e => setRating(Number(e.target.value))}>
+                        <select
+                            value={rating}
+                            onChange={e => setRating(Number(e.target.value))}
+                        >
                             {[5, 4, 3, 2, 1].map(r => (
                                 <option key={r} value={r}>{r} ★</option>
                             ))}
@@ -113,18 +144,32 @@ const AppDetails = () => {
                         <button onClick={sendComment}>Send</button>
                     </div>
 
-                    {/* Відображення коментарів */}
+                    {/* Список коментарів */}
                     <div className="app-details-comments-list">
                         {app.comments.map(c => (
                             <div key={c.id} className="app-details-comment">
-                                <p className="comment-rating">{c.rating} ★</p>
 
-                                {/* Імʼя автора коментаря */}
-                                <p className="comment-author">
-                                    {c.user?.name || "Anonymous"}
-                                </p>
+                                <div className="comment-header">
+                                    <p className="comment-author">
+                                        User: {c.user?.email || "Anonymous"}
+                                    </p>
+
+                                    <p className="comment-rating">
+                                        Rating: {c.rating} ★
+                                    </p>
+                                </div>
 
                                 <p className="comment-text">{c.comment}</p>
+
+                                {/* Кнопка видалення */}
+                                {user && c.user_id === user.id && (
+                                    <button
+                                        className="delete-comment-btn"
+                                        onClick={() => deleteComment(c.id)}
+                                    >
+                                        Delete
+                                    </button>
+                                )}
                             </div>
                         ))}
                     </div>
