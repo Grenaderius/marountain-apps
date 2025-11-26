@@ -10,6 +10,7 @@ class CommentsController < ApplicationController
     comment = Comment.new(comment_params)
 
     if comment.save
+      comment = Comment.includes(:user).find(comment.id)
       render json: comment, include: { user: { only: [:id, :name, :email] } }, status: :created
     else
       render json: { errors: comment.errors.full_messages }, status: :unprocessable_entity
