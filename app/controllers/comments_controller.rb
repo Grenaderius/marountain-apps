@@ -7,6 +7,13 @@ class CommentsController < ApplicationController
   end
 
   def create
+    # Перевірка чи юзер вже коментував цей застосунок
+    existing = Comment.find_by(app_id: comment_params[:app_id], user_id: comment_params[:user_id])
+
+    if existing
+      return render json: { error: "You already left a review for this app" }, status: :forbidden
+    end
+
     comment = Comment.new(comment_params)
 
     if comment.save
@@ -28,6 +35,20 @@ class CommentsController < ApplicationController
 
     comment.destroy
     render json: { message: "Comment deleted" }
+  end
+
+  def update
+    comment = Comment.find(params[:id])
+
+    if comment.user_id != params[:user_id].to_i
+      return render json: { error: "Not allowed" }, status: :forbidden
+    end
+
+    if comment.update(comment_params)
+      render json: comment, include: { user: { only: [:id, :name, :email] } }
+    else
+      render json: { errors: comment.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   private

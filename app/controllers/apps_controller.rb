@@ -17,14 +17,9 @@ class AppsController < ApplicationController
 
   # GET /apps/:id
   def show
-    app = App.includes(comments: :user, dev: []).find(params[:id])
-
+    app = App.includes(comments: :user).find(params[:id])
     render json: app, include: {
-      dev: { only: [:id, :name] },
-      comments: {
-        include: { user: { only: [:id, :name] } },
-        only: [:id, :comment, :rating, :created_at]
-      }
+      comments: { include: { user: { only: [:id, :email, :name] } } }
     }
   end
 
