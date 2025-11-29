@@ -188,7 +188,9 @@ html, body {
     background: #ff4444;
     color: white;
     border: none;
-    padding: 6px 12px;
+    padding-left: 15px;
+    padding-top: 12px;
+    padding-bottom: 8px;
     border-radius: 6px;
     cursor: pointer;
     transition: 0.2s;
