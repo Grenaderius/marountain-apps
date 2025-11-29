@@ -11,32 +11,22 @@ const ViewUploadedApps = () => {
     useEffect(() => {
         const fetchUserAndApps = async () => {
             try {
-                // 1️⃣ Отримуємо поточного користувача
-                const userRes = (() => {
-                    try {
-                        return JSON.parse(localStorage.getItem("user"));
-                    } catch {
-                        return null;
-                    }
-                })();
+                const userLocal = JSON.parse(localStorage.getItem("user"));
 
-                if (!userRes.ok) throw new Error("Не вдалося отримати користувача");
+                if (!userLocal) {
+                    console.error("User not found in localStorage");
+                    return;
+                }
 
-                const userData = await userRes.json();
-                setUser(userData);
+                setUser(userLocal);
 
-                // 2️⃣ Отримуємо всі додатки
                 const appsRes = await fetch(`${API_URL}/apps`, {
                     credentials: "include",
                 });
 
-                if (!appsRes.ok)
-                    throw new Error("Не вдалося отримати список додатків");
-
                 const appsData = await appsRes.json();
 
-                // 3️⃣ Фільтруємо тільки додатки цього користувача
-                const filtered = appsData.filter(app => app.user_id === userData.id);
+                const filtered = appsData.filter(app => app.dev_id === userLocal.id);
                 setApps(filtered);
 
             } catch (error) {

@@ -74,11 +74,23 @@ html, body {
 }
 
 
+.app-details-download-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.comment-delete-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 15px;
+    margin-top: 8px;
+}
 
 .app-details-download {
     margin: 0;
     width: 610px;
-    height: 50px;
+    height: 30px;
     text-align: center;
     margin-top: 20px;
     padding: 15px 30px;

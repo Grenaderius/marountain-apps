@@ -292,7 +292,7 @@ const AppDetails = () => {
                                     <p className="comment-text">{c.comment}</p>
 
                                     {user && Number(c.user_id) === Number(user.id) && (
-                                        <div style={{ marginTop: 8 }}>
+                                        <div className="comment-delete-wrapper">
                                             <button onClick={() => deleteComment(c.id)} className="delete-comment-btn">
                                                 Delete
                                             </button>
