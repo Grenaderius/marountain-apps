@@ -6,14 +6,19 @@ const ViewUploadedApps = () => {
     const [apps, setApps] = useState([]);
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
+    const API_URL = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         const fetchUserAndApps = async () => {
             try {
                 // 1️⃣ Отримуємо поточного користувача
-                const userRes = await fetch("http://localhost:3000/auth/user", {
-                    credentials: "include",
-                });
+                const userRes = (() => {
+                    try {
+                        return JSON.parse(localStorage.getItem("user"));
+                    } catch {
+                        return null;
+                    }
+                })();
 
                 if (!userRes.ok) throw new Error("Не вдалося отримати користувача");
 
@@ -21,7 +26,7 @@ const ViewUploadedApps = () => {
                 setUser(userData);
 
                 // 2️⃣ Отримуємо всі додатки
-                const appsRes = await fetch("http://localhost:3000/apps", {
+                const appsRes = await fetch(`${API_URL}/apps`, {
                     credentials: "include",
                 });
 
@@ -49,7 +54,7 @@ const ViewUploadedApps = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Ви впевнені, що хочете видалити цей додаток?")) {
             try {
-                const response = await fetch(`http://localhost:3000/apps/${id}`, {
+                const response = await fetch(`${API_URL}/apps/${id}`, {
                     method: "DELETE",
                     credentials: "include",
                 });

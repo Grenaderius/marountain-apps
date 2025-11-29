@@ -277,20 +277,6 @@ const AppDetails = () => {
                             ))}
                         </select>
 
-                        <div style={{ display: "flex", gap: 8 }}>
-                            <button onClick={sendComment} disabled={saving}>
-                                {myComment ? (saving ? "Updating..." : "Update") : saving ? "Sending..." : "Send"}
-                            </button>
-
-                            {myComment && (
-                                <button
-                                    onClick={() => deleteComment(myComment.id)}
-                                    className="delete-comment-btn"
-                                    style={{ background: "#e53935", color: "#fff" }}
-                                >
-                                    Delete
-                                </button>
-                            )}
                         </div>
                     </div>
 
@@ -320,7 +306,7 @@ const AppDetails = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        
     );
 };
 

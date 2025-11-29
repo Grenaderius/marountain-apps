@@ -50,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -59,18 +59,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ViewUploadedApps.css",
-              "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\ViewUploadedApps.css",
-              "RelativeDocumentMoniker": "src\\Pages\\ViewUploadedApps.css",
-              "ToolTip": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\ViewUploadedApps.css",
-              "RelativeToolTip": "src\\Pages\\ViewUploadedApps.css",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-11-22T17:43:26.657Z"
             },
             {
               "$type": "Document",
@@ -122,6 +110,31 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AppDetails.jsx",
+              "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\AppDetails.jsx",
+              "RelativeDocumentMoniker": "src\\Pages\\AppDetails.jsx",
+              "ToolTip": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\AppDetails.jsx",
+              "RelativeToolTip": "src\\Pages\\AppDetails.jsx",
+              "ViewState": "AgIAACkBAAAAAAAAAAAAAEYBAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-11-21T11:22:03.703Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ViewUploadedApps.css",
+              "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\ViewUploadedApps.css",
+              "RelativeDocumentMoniker": "src\\Pages\\ViewUploadedApps.css",
+              "ToolTip": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\ViewUploadedApps.css",
+              "RelativeToolTip": "src\\Pages\\ViewUploadedApps.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-11-22T17:43:26.657Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 7,
               "Title": "AppCard.jsx",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\PageComponents\\AppCard.jsx",
@@ -155,19 +168,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
               "WhenOpened": "2025-11-21T11:31:59.698Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AppDetails.jsx",
-              "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\AppDetails.jsx",
-              "RelativeDocumentMoniker": "src\\Pages\\AppDetails.jsx",
-              "ToolTip": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\AppDetails.jsx",
-              "RelativeToolTip": "src\\Pages\\AppDetails.jsx",
-              "ViewState": "AgIAAIIAAAAAAAAAAAAuwLYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-11-21T11:22:03.703Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
