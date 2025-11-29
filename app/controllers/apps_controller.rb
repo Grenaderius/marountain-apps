@@ -2,16 +2,17 @@ class AppsController < ApplicationController
   # GET /apps
   def index
     apps = App.all.includes(:comments)
-
+    
     result = apps.map do |app|
       {
         id: app.id,
         name: app.name,
         photo: app.photo_path,
-        rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0
+        rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0,
+        dev_id: app.dev_id
       }
     end
-
+    
     render json: result
   end
 
