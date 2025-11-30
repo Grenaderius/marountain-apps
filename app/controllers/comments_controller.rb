@@ -7,7 +7,6 @@ class CommentsController < ApplicationController
   end
 
   def create
-    # Перевірка чи юзер вже коментував цей застосунок
     existing = Comment.find_by(app_id: comment_params[:app_id], user_id: comment_params[:user_id])
 
     if existing
@@ -24,11 +23,9 @@ class CommentsController < ApplicationController
     end
   end
 
-  # DELETE /comments/:id
   def destroy
     comment = Comment.find(params[:id])
 
-    # авторизація: юзер може видаляти тільки свій коментар
     if comment.user_id != params[:user_id].to_i
       return render json: { error: "Not allowed" }, status: :forbidden
     end
@@ -40,7 +37,7 @@ class CommentsController < ApplicationController
   def update
     comment = Comment.find(params[:id])
 
-    if comment.user_id != params[:user_id].to_i
+    if comment.user_id != comment_params[:user_id].to_i
       return render json: { error: "Not allowed" }, status: :forbidden
     end
 
