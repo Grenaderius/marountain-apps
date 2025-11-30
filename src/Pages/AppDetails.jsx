@@ -13,19 +13,10 @@ const AppDetails = () => {
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState(null);
 
-    // Поточний авторизований юзер (localStorage)
-    const user = (() => {
-        try {
-            return JSON.parse(localStorage.getItem("user"));
-        } catch {
-            return null;
-        }
-    })();
+    const user = JSON.parse(localStorage.getItem("user") || "null");
 
-    const findUserComment = (comments = []) => {
-        if (!user) return null;
-        return comments.find((c) => Number(c.user_id) === Number(user.id));
-    };
+    const findUserComment = (comments = []) =>
+        user ? comments.find((c) => Number(c.user_id) === Number(user.id)) : null;
 
     const sortComments = (comments = []) => {
         if (!comments) return [];
@@ -33,10 +24,7 @@ const AppDetails = () => {
         return [...comments].sort((a, b) => {
             if (userId && Number(a.user_id) === Number(userId)) return -1;
             if (userId && Number(b.user_id) === Number(userId)) return 1;
-
-            if (a.created_at && b.created_at) {
-                return new Date(b.created_at) - new Date(a.created_at);
-            }
+            if (a.created_at && b.created_at) return new Date(b.created_at) - new Date(a.created_at);
             return Number(b.id) - Number(a.id);
         });
     };
@@ -51,115 +39,70 @@ const AppDetails = () => {
                 if (!res.ok) throw new Error(`Failed to load app: ${res.status}`);
                 const data = await res.json();
 
-                if (data.comments && user) {
-                    data.comments = data.comments.map((c) => {
-                        if (!c.user && Number(c.user_id) === Number(user.id)) {
-                            return { ...c, user: { id: user.id, email: user.email, name: user.name } };
-                        }
-                        return c;
-                    });
-                }
+                if (!canceled) {
+                    // підв'язка локального user для власного коментаря
+                    if (data.comments && user) {
+                        data.comments = data.comments.map((c) =>
+                            !c.user && Number(c.user_id) === Number(user.id)
+                                ? { ...c, user }
+                                : c
+                        );
+                    }
 
-                if (canceled) return;
-                setApp((prev) => ({ ...data, comments: sortComments(data.comments || []) }));
+                    setApp({ ...data, comments: sortComments(data.comments || []) });
 
-                const myComment = findUserComment(data.comments || []);
-                if (myComment) {
-                    setCommentText(myComment.comment || "");
-                    setRating(myComment.rating ?? 5);
-                } else {
-                    setCommentText("");
-                    setRating(5);
+                    const myComment = findUserComment(data.comments || []);
+                    if (myComment) {
+                        setCommentText(myComment.comment || "");
+                        setRating(myComment.rating ?? 5);
+                    }
                 }
             } catch (err) {
-                console.error(err);
                 if (!canceled) setError(err.message || "Error");
             } finally {
                 if (!canceled) setLoading(false);
             }
         };
         load();
-        return () => {
-            canceled = true;
-        };
+        return () => (canceled = true);
     }, [API_URL, id]);
-
 
     const upsertCommentInState = (comment) => {
         setApp((prev) => {
             if (!prev) return prev;
-
-            let fixed = comment;
-            if (!comment.user && user && Number(comment.user_id) === Number(user.id)) {
-                fixed = { ...comment, user: { id: user.id, email: user.email, name: user.name } };
-            }
-
+            const fixed = !comment.user && user ? { ...comment, user } : comment;
             const others = (prev.comments || []).filter((c) => Number(c.user_id) !== Number(fixed.user_id));
-            const newList = [fixed, ...others];
-            return { ...prev, comments: sortComments(newList) };
+            return { ...prev, comments: sortComments([fixed, ...others]) };
         });
     };
 
     const sendComment = async () => {
-        setError(null);
-        if (!user) return alert("You must be logged in to comment!");
+        if (!user) return alert("You must be logged in!");
         if (!commentText.trim()) return alert("Write a comment first!");
-
         setSaving(true);
         try {
             const existing = findUserComment(app?.comments || []);
+            const method = existing ? "PUT" : "POST";
+            const url = existing ? `${API_URL}/comments/${existing.id}` : `${API_URL}/comments`;
 
-            if (existing) {
-                const res = await fetch(`${API_URL}/comments/${existing.id}`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        comment: {
-                            app_id: id,
-                            user_id: user.id,
-                            comment: commentText,
-                            rating,
-                        },
-                        user_id: user.id
-                    }),
-                });
+            const res = await fetch(url, {
+                method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    comment: { app_id: id, user_id: user.id, comment: commentText, rating },
+                }),
+            });
 
-                if (!res.ok) {
-                    const errBody = await res.json().catch(() => ({}));
-                    throw new Error(errBody.error || errBody.errors?.join?.(", ") || "Update failed");
-                }
-
-                const data = await res.json();
-                upsertCommentInState(data);
-            } else {
-
-                const res = await fetch(`${API_URL}/comments`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        comment: {
-                            app_id: id,
-                            user_id: user.id,
-                            comment: commentText,
-                            rating,
-                        },
-                    }),
-                });
-
-                if (!res.ok) {
-                    const errBody = await res.json().catch(() => ({}));
-                    throw new Error(errBody.error || errBody.errors?.join?.(", ") || "Create failed");
-                }
-
-                const data = await res.json();
-                upsertCommentInState(data);
+            if (!res.ok) {
+                const errBody = await res.json().catch(() => ({}));
+                throw new Error(errBody.error || errBody.errors?.join?.(", ") || "Failed");
             }
 
+            const data = await res.json();
+            upsertCommentInState(data);
             setCommentText("");
             setRating(5);
         } catch (err) {
-            console.error(err);
-            setError(err.message || "Error saving comment");
             alert(err.message || "Error saving comment");
         } finally {
             setSaving(false);
@@ -182,17 +125,14 @@ const AppDetails = () => {
                 throw new Error(errBody.error || "Delete failed");
             }
 
-            setApp((prev) => {
-                if (!prev) return prev;
-                const newComments = (prev.comments || []).filter((c) => Number(c.id) !== Number(commentId));
-                return { ...prev, comments: sortComments(newComments) };
-            });
-
+            setApp((prev) => ({
+                ...prev,
+                comments: sortComments((prev.comments || []).filter((c) => Number(c.id) !== Number(commentId))),
+            }));
             setCommentText("");
             setRating(5);
         } catch (err) {
-            console.error(err);
-            alert(err.message || "You cannot delete this comment!");
+            alert(err.message || "Cannot delete comment");
         }
     };
 
@@ -217,40 +157,21 @@ const AppDetails = () => {
 
                 <div className="app-details-top">
                     <img src={app.photo_path} className="app-details-icon" alt="App icon" />
-
                     <div className="app-details-info">
-                        <p>
-                            <span>Rating:</span> {averageRating} ★
-                        </p>
-
-                        <p>
-                            <span>Price:</span> {app.cost ? `${app.cost} USD` : "Free"}
-                        </p>
-                        <p>
-                            <span>Uploaded by:</span> {app.dev?.name || "Unknown"}
-                        </p>
-                        <p>
-                            <span>Minimal Android version:</span> {app.android_min_version}
-                        </p>
-                        <p>
-                            <span>Minimal RAM needed:</span> {app.ram_needed} GB
-                        </p>
-                        <p>
-                            <span>Max size needed:</span> {app.size} MB
-                        </p>
+                        <p><span>Rating:</span> {averageRating} ★</p>
+                        <p><span>Price:</span> {app.cost ? `${app.cost} USD` : "Free"}</p>
+                        <p><span>Uploaded by:</span> {app.dev?.name || "Unknown"}</p>
+                        <p><span>Minimal Android version:</span> {app.android_min_version}</p>
+                        <p><span>Minimal RAM needed:</span> {app.ram_needed} GB</p>
+                        <p><span>Max size needed:</span> {app.size} MB</p>
                     </div>
                 </div>
 
                 <div className="app-details-download-section">
-                    {/* скачування APK */}
                     {app.apk_path ? (
-                        <a className="app-details-download" href={app.apk_path} target="_blank" rel="noreferrer">
-                            Download APK
-                        </a>
+                        <a className="app-details-download" href={app.apk_path} target="_blank" rel="noreferrer">Download APK</a>
                     ) : (
-                        <button className="app-details-download" disabled>
-                            No APK
-                        </button>
+                        <button className="app-details-download" disabled>No APK</button>
                     )}
                 </div>
 
@@ -263,39 +184,34 @@ const AppDetails = () => {
                     <h2>Reviews</h2>
 
                     <div className="app-details-write-comment">
-                        <textarea
-                            value={commentText}
-                            onChange={(e) => setCommentText(e.target.value)}
-                            placeholder="Write your feedback..."
-                        />
-
+                        <textarea value={commentText} onChange={(e) => setCommentText(e.target.value)} placeholder="Write your feedback..." />
                         <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
-                            {[5, 4, 3, 2, 1].map((r) => (
-                                <option key={r} value={r}>
-                                    {r} ★
-                                </option>
-                            ))}
+                            {[5, 4, 3, 2, 1].map(r => <option key={r} value={r}>{r} ★</option>)}
                         </select>
-
+                        <div style={{ display: "flex", marginTop: 8 }}>
+                            <button onClick={sendComment} disabled={saving}>
+                                {myComment ? (saving ? "Updating..." : "Update") : saving ? "Sending..." : "Send"}
+                            </button>
+                            {myComment && (
+                                <button onClick={() => deleteComment(myComment.id)} className="delete-comment-btn" style={{ background: "#e53935", color: "#fff" }}>
+                                    Delete
+                                </button>
+                            )}
                         </div>
                     </div>
 
                     <div className="app-details-comments-list">
                         {app.comments && app.comments.length > 0 ? (
-                            app.comments.map((c) => (
+                            app.comments.map(c => (
                                 <div key={c.id} className="app-details-comment">
                                     <div className="comment-header">
                                         <p className="comment-author">User: {c.user?.email || "Anonymous"}</p>
                                         <p className="comment-rating">Rating: {c.rating} ★</p>
                                     </div>
-
                                     <p className="comment-text">{c.comment}</p>
-
                                     {user && Number(c.user_id) === Number(user.id) && (
-                                        <div className="comment-delete-wrapper">
-                                            <button onClick={() => deleteComment(c.id)} className="delete-comment-btn">
-                                                Delete
-                                            </button>
+                                        <div style={{ marginTop: 8 }}>
+                                            <button onClick={() => deleteComment(c.id)} className="delete-comment-btn">Delete</button>
                                         </div>
                                     )}
                                 </div>
@@ -306,7 +222,7 @@ const AppDetails = () => {
                     </div>
                 </div>
             </div>
-        
+        </div>
     );
 };
 

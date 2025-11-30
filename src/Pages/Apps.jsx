@@ -1,16 +1,21 @@
 ﻿import React from "react";
 import SideBar from "../SideBar/SideBar";
+import "./Games.css";
+import AppCardsList from "./PageComponents/AppCardList";
 
 const Apps = () => {
     return (
-        <div className="flex flex-col h-screen">
-            <div className="flex flex-1">
+        <div className="games-page">
+            <div className="games-bg" />
+            <div className="games-overlay" />
+
+            <div className="games-layout">
                 <SideBar />
-                <main className="flex-1 p-6 bg-gray-100">
-                    <h1 className="text-2xl font-bold">Apps</h1>
+                <main className="games-content">
+                    <h1 className="text-3xl font-bold"></h1>
                     <p className="mt-4">
-                        Тут буде контент сторінки Apps.
                     </p>
+                    <AppCardsList filterBy="apps" />
                 </main>
             </div>
         </div>

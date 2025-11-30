@@ -200,8 +200,9 @@ html, body {
     background: #ff4444;
     color: white;
     border: none;
-    padding-left: 15px;
-    padding-top: 12px;
+    margin-left: 15px;
+    text-align: center;
+    padding-top: 10px;
     padding-bottom: 8px;
     border-radius: 6px;
     cursor: pointer;

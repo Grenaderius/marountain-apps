@@ -1,7 +1,7 @@
 ﻿import React, { useEffect, useState } from "react";
 import AppCard from "./AppCard";
 
-const AppCardsList = () => {
+const AppCardsList = ({ filterBy }) => {
     const [items, setItems] = useState([]);
     const [error, setError] = useState(null);
 
@@ -11,19 +11,24 @@ const AppCardsList = () => {
         const fetchApps = async () => {
             try {
                 const res = await fetch(`${API_URL}/apps`);
-                if (!res.ok) {
-                    throw new Error(`Server responded with ${res.status}`);
-                }
+                if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+
                 const data = await res.json();
-                setItems(data);
+                const filtered =
+                    filterBy === "games"
+                        ? data.filter((i) => i.is_game === true)
+                        : filterBy === "apps"
+                            ? data.filter((i) => i.is_game === false)
+                            : data;
+
+                setItems(filtered);
             } catch (err) {
-                console.error("Failed to fetch apps:", err);
                 setError("Could not load apps. Please try again later.");
             }
         };
 
         fetchApps();
-    }, [API_URL]);
+    }, [API_URL, filterBy]);
 
     if (error) return <p className="error">{error}</p>;
     if (items.length === 0) return <p>Loading apps...</p>;
