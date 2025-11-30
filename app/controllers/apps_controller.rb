@@ -7,6 +7,7 @@ class AppsController < ApplicationController
       {
         id: app.id,
         name: app.name,
+        is_game: app.is_game,
         photo: app.photo_path,
         rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0,
         dev_id: app.dev_id
