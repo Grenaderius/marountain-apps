@@ -4,11 +4,11 @@ class Api::V1::GeminiController < ApplicationController
   skip_before_action :authorize_request, only: [:compatibility]
 
   def compatibility
-    message = params[:message].to_s.strip
+    # безпечне отримання параметру
+    message = params[:message] || params.dig(:gemini, :message) || ""
+    message = message.to_s.strip
 
-    client = Gemini.new(
-      api_key: ENV["GEMINI_API_KEY"]
-    )
+    client = Gemini.new(api_key: ENV["GEMINI_API_KEY"])
 
     prompt = <<~PROMPT
       Ти — помічник, що аналізує моделі смартфонів.
@@ -44,15 +44,14 @@ class Api::V1::GeminiController < ApplicationController
       Знайди характеристики телефону, навіть якщо модель написана з помилками.
     PROMPT
 
-    # ✔ Правильний виклик Gemini (без drive upload!)
-    raw = client.generate(
+     raw = client.generate(
       model: "gemini-1.5-flash",
       contents: [
         { role: "user", parts: [{ text: prompt }] }
       ]
     )
 
-    text = raw.dig("candidates", 0, "content", "parts", 0, "text") rescue ""
+    text = raw.dig("candidates", 0, "content", "parts", 0, "text") || ""
 
     parsed =
       begin
