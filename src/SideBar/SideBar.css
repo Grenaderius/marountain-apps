@@ -1,0 +1,152 @@
+﻿.sidebar {
+    width: 350px;
+    min-height: 200vh;
+    padding-top: 90px;
+    background-color: #BDA5A5;
+    border-right: 1px solid #ddd;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; 
+    overflow-x: hidden;
+    position: relative;
+    z-index: 5;
+    padding-left: 20px;
+}
+
+
+    .sidebar h3 {
+        margin-bottom: 10px;
+    }
+
+
+    .sidebar-filter-section label {
+        text-align: left;
+        display: block;
+        margin-bottom: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        padding-left: 10px;
+    }
+
+.sidebar-dropdown-btn {
+    width: 92%;
+    padding: 10px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    background: #9C7777;
+    border: 1px solid black;
+    border-radius: 4px;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.sidebar-dropdown-btn:focus {
+    outline: none;
+}
+
+.sidebar-dropdown-btn:hover {
+    border: 1px solid black !important;
+}
+
+.sidebar-dropdown-list {
+    width: 92%;
+    margin-top: 2px;
+    list-style: none;
+    padding: 0;
+    border-radius: 4px;
+    background: #BDA5A5;
+    color: #440b0b;
+}
+
+/*якось треба зменшити бордер*/
+.sidebar-dropdown-item {
+    border-radius: 4px;
+    padding: 6px;
+    cursor: pointer;
+    background: white;
+    border: 0.2px solid black;
+}
+
+    .sidebar-dropdown-item:hover {
+        background-color: #f0f0f0;
+    }
+
+
+    /*buttons*/
+.sidebar-apply-btn {
+    width: 92%;
+    padding: 10px;
+    background-color: #9C7777;
+    color: white;
+    border: 1px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 0px;
+    margin-top: 10px;
+    outline: none;
+}
+
+    .sidebar-apply-btn:focus{
+        outline: none;
+    }
+
+    .sidebar-apply-btn:hover {
+        border: 1px solid black;
+    }
+
+.sidebar-check-compitability-btn {
+    width: 92%;
+    padding: 10px;
+    background-color: #9C7777;
+    color: white;
+    border: 1px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 3px;
+    outline: none;
+}
+
+    .sidebar-check-compitability-btn:focus{
+        outline: none;
+    }
+
+    .sidebar-check-compitability-btn:hover {
+        border: 1px solid black;
+    }
+
+
+.sidebar-apply-btn-text {
+    margin-top:6px;
+}
+
+.sidebar-comp-checkbox {
+    margin-top: 10px;
+    padding-left: 20px;
+    margin-bottom: 10px;
+    float: left;
+}
+
+.sidebar-checkbox-section {
+    margin-left: 7px;
+}
+
+.sidebar-user-email {
+    color: dimgray;
+    margin-top: 80px;
+}
+
+.games-layout {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+}
+
+.games-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    position: relative;
+    z-index: 10;
+}
