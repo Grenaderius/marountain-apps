@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
+  # JWT Auth
+  post "/login", to: "auth#login"
+
   resources :apps
   resources :users, only: [:index, :show, :create]
   resources :comments, only: [:index, :create, :update, :destroy]
 
-  post "/login", to: "sessions#create"
   post "/upload", to: "uploads#create"
 
   namespace :api do
@@ -14,6 +16,5 @@ Rails.application.routes.draw do
   end
 
   root "home#index"
-
   get "*path", to: "home#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 end

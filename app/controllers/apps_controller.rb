@@ -1,8 +1,9 @@
 class AppsController < ApplicationController
-  # GET /apps
+  before_action :authorize_request, only: [:create, :update, :destroy]
+
   def index
     apps = App.all.includes(:comments)
-    
+
     result = apps.map do |app|
       {
         id: app.id,
@@ -13,11 +14,10 @@ class AppsController < ApplicationController
         dev_id: app.dev_id
       }
     end
-    
+
     render json: result
   end
 
-  # GET /apps/:id
   def show
     app = App.includes(comments: :user).find(params[:id])
     render json: app, include: {
@@ -25,9 +25,9 @@ class AppsController < ApplicationController
     }
   end
 
-  # POST /apps
   def create
-    app = App.new(app_params)
+    app = App.new(app_params.merge(dev_id: @current_user.id))
+
     if app.save
       render json: app, status: :created
     else
@@ -35,9 +35,11 @@ class AppsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /apps/:id
   def update
     app = App.find(params[:id])
+
+    return render json: { error: "Not allowed" }, status: :forbidden unless app.dev_id == @current_user.id
+
     if app.update(app_params)
       render json: app
     else
@@ -45,9 +47,12 @@ class AppsController < ApplicationController
     end
   end
 
-  # DELETE /apps/:id
   def destroy
-    App.find(params[:id]).destroy
+    app = App.find(params[:id])
+
+    return render json: { error: "Not allowed" }, status: :forbidden unless app.dev_id == @current_user.id
+
+    app.destroy
     head :no_content
   end
 
@@ -58,14 +63,12 @@ class AppsController < ApplicationController
       :name,
       :description,
       :is_game,
-      :dev_id,
       :cost,
       :size,
       :android_min_version,
       :ram_needed,
       :photo_path,
-      :apk_path,
-      :downloads_count
+      :apk_path
     )
   end
 end

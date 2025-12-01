@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  before_action :authorize_request, except: [:index, :show]
 
   def index
     comments = Comment.includes(:user)
@@ -7,13 +7,13 @@ class CommentsController < ApplicationController
   end
 
   def create
-    existing = Comment.find_by(app_id: comment_params[:app_id], user_id: comment_params[:user_id])
+    existing = Comment.find_by(app_id: comment_params[:app_id], user_id: @current_user.id)
 
     if existing
       return render json: { error: "You already left a review for this app" }, status: :forbidden
     end
 
-    comment = Comment.new(comment_params)
+    comment = Comment.new(comment_params.merge(user_id: @current_user.id))
 
     if comment.save
       comment = Comment.includes(:user).find(comment.id)
@@ -23,23 +23,10 @@ class CommentsController < ApplicationController
     end
   end
 
-  def destroy
-    comment = Comment.find(params[:id])
-
-    if comment.user_id != params[:user_id].to_i
-      return render json: { error: "Not allowed" }, status: :forbidden
-    end
-
-    comment.destroy
-    render json: { message: "Comment deleted" }
-  end
-
   def update
     comment = Comment.find(params[:id])
 
-    if comment.user_id != comment_params[:user_id].to_i
-      return render json: { error: "Not allowed" }, status: :forbidden
-    end
+    return render json: { error: "Not allowed" }, status: :forbidden unless comment.user_id == @current_user.id
 
     if comment.update(comment_params)
       render json: comment, include: { user: { only: [:id, :name, :email] } }
@@ -48,9 +35,18 @@ class CommentsController < ApplicationController
     end
   end
 
+  def destroy
+    comment = Comment.find(params[:id])
+
+    return render json: { error: "Not allowed" }, status: :forbidden unless comment.user_id == @current_user.id
+
+    comment.destroy
+    render json: { message: "Comment deleted" }
+  end
+
   private
 
   def comment_params
-    params.require(:comment).permit(:app_id, :user_id, :comment, :rating)
+    params.require(:comment).permit(:app_id, :comment, :rating)
   end
 end
