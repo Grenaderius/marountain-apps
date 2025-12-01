@@ -1,7 +1,6 @@
 require "gemini-ai"
 
 class Api::V1::GeminiController < ApplicationController
-  protect_from_forgery with: :null_session
 
   def compatibility
     message = params[:message].to_s.strip
