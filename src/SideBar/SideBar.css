@@ -1,16 +1,17 @@
 ﻿.sidebar {
     width: 350px;
-    min-height: 200vh; /* 🔥 Фіксована висота */
+    min-height: 200vh;
     padding-top: 90px;
     background-color: #BDA5A5;
     border-right: 1px solid #ddd;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    overflow-y: auto; /* 🔥 Власний скрол */
+    overflow-y: auto; 
     overflow-x: hidden;
     position: relative;
     z-index: 5;
+    padding-left: 20px;
 }
 
 
@@ -25,6 +26,7 @@
         margin-bottom: 4px;
         cursor: pointer;
         font-size: 14px;
+        padding-left: 10px;
     }
 
 .sidebar-dropdown-btn {
@@ -49,12 +51,11 @@
 
 .sidebar-dropdown-list {
     width: 92%;
-    margin-left: 4%;
     margin-top: 2px;
     list-style: none;
     padding: 0;
     border-radius: 4px;
-    background: white;
+    background: #BDA5A5;
     color: #440b0b;
 }
 
@@ -63,6 +64,7 @@
     border-radius: 4px;
     padding: 6px;
     cursor: pointer;
+    background: white;
     border: 0.2px solid black;
 }
 
@@ -120,19 +122,18 @@
 
 .sidebar-comp-checkbox {
     margin-top: 10px;
-    margin-left: 7px;
+    padding-left: 20px;
     margin-bottom: 10px;
     float: left;
 }
 
 .sidebar-checkbox-section {
     margin-left: 7px;
-    
 }
 
 .sidebar-user-email {
     color: dimgray;
-    margin-top: 80px; /* трохи відступу від самого низу */
+    margin-top: 80px;
 }
 
 .games-layout {
@@ -149,45 +150,3 @@
     position: relative;
     z-index: 10;
 }
-
-/* Приховуємо стандартний чекбокс 
-input[type="checkbox"] {
-    display: none;
-}
-
- Створюємо кастомну галочку 
-label {
-    position: relative;
-    padding-left: 25px;
-    cursor: pointer;
-}
-
-    label::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 20px;
-        height: 20px;
-        border: 1px solid black;  рамка 
-        border-radius: 4px;
-        background: white;
-        transition: background 0.2s, border-color 0.2s;
-    }
-
-input[type="checkbox"]:checked + label::before {
-    background-color: #007bff;
-    border-color: #007bff;
-}
-
-input[type="checkbox"]:checked + label::after {
-    content: "";
-    position: absolute;
-    left: 4px;
-    top: 0px;
-    width: 8px;
-    height: 16px;
-    border: solid black;
-    border-width: 0 3px 3px 0;
-    transform: rotate(45deg);
-}*/
