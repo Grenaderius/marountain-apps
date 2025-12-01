@@ -1,6 +1,7 @@
 require "gemini-ai"
 
 class Api::V1::GeminiController < ApplicationController
+  skip_before_action :authorize_request, only: [:compatibility]
 
   def compatibility
     message = params[:message].to_s.strip

@@ -1,5 +1,5 @@
 class AppsController < ApplicationController
-    skip_before_action :authorize_request, only: [:index, :show]
+  skip_before_action :authorize_request, only: [:index, :show]
   before_action :authorize_request, only: [:create, :update, :destroy]
 
   def index
