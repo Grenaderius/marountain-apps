@@ -16,7 +16,7 @@ const Login = () => {
             const response = await fetch(`${API_URL}/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ session: { email, password } }), // ✅
+                body: JSON.stringify({ session: { email, password } }), 
             });
 
             const data = await response.json().catch(() => null);
@@ -26,7 +26,9 @@ const Login = () => {
                 return;
             }
 
+            localStorage.setItem("token", data.token);
             localStorage.setItem("user", JSON.stringify(data.user));
+
             navigate("/");
         } catch (error) {
             console.error("Login error:", error);

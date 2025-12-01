@@ -42,9 +42,10 @@ const SignUp = () => {
                 return;
             }
 
+            localStorage.setItem("token", data.token);
             localStorage.setItem("user", JSON.stringify(data.user));
+            navigate("/");
 
-            navigate("/login");
         } catch (err) {
             console.error("SignUp error:", err);
             setError("Server error. Try again later.");

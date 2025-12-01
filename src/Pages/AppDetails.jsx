@@ -14,6 +14,7 @@ const AppDetails = () => {
     const [error, setError] = useState(null);
 
     const user = JSON.parse(localStorage.getItem("user") || "null");
+    const token = localStorage.getItem("token");
 
     const findUserComment = (comments = []) =>
         user ? comments.find((c) => Number(c.user_id) === Number(user.id)) : null;
@@ -40,12 +41,9 @@ const AppDetails = () => {
                 const data = await res.json();
 
                 if (!canceled) {
-                    // підв'язка локального user для власного коментаря
                     if (data.comments && user) {
                         data.comments = data.comments.map((c) =>
-                            !c.user && Number(c.user_id) === Number(user.id)
-                                ? { ...c, user }
-                                : c
+                            !c.user && Number(c.user_id) === Number(user.id) ? { ...c, user } : c
                         );
                     }
 
@@ -77,8 +75,9 @@ const AppDetails = () => {
     };
 
     const sendComment = async () => {
-        if (!user) return alert("You must be logged in!");
+        if (!user || !token) return alert("You must be logged in!");
         if (!commentText.trim()) return alert("Write a comment first!");
+
         setSaving(true);
         try {
             const existing = findUserComment(app?.comments || []);
@@ -87,9 +86,12 @@ const AppDetails = () => {
 
             const res = await fetch(url, {
                 method,
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
                 body: JSON.stringify({
-                    comment: { app_id: id, user_id: user.id, comment: commentText, rating },
+                    comment: { app_id: id, comment: commentText, rating }
                 }),
             });
 
@@ -102,6 +104,7 @@ const AppDetails = () => {
             upsertCommentInState(data);
             setCommentText("");
             setRating(5);
+
         } catch (err) {
             alert(err.message || "Error saving comment");
         } finally {
@@ -110,14 +113,16 @@ const AppDetails = () => {
     };
 
     const deleteComment = async (commentId) => {
-        if (!user) return alert("You must be logged in!");
+        if (!user || !token) return alert("You must be logged in!");
         if (!window.confirm("Are you sure you want to delete your review?")) return;
 
         try {
             const res = await fetch(`${API_URL}/comments/${commentId}`, {
                 method: "DELETE",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ user_id: user.id }),
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                }
             });
 
             if (!res.ok) {
@@ -127,10 +132,14 @@ const AppDetails = () => {
 
             setApp((prev) => ({
                 ...prev,
-                comments: sortComments((prev.comments || []).filter((c) => Number(c.id) !== Number(commentId))),
+                comments: sortComments(
+                    (prev.comments || []).filter((c) => Number(c.id) !== Number(commentId))
+                ),
             }));
+
             setCommentText("");
             setRating(5);
+
         } catch (err) {
             alert(err.message || "Cannot delete comment");
         }

@@ -13,14 +13,12 @@ const AddApp = () => {
         is_game: false,
     });
 
+    const token = localStorage.getItem("token");
+    const API_URL = import.meta.env.VITE_API_URL;
+
     const [file, setFile] = useState(null);
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(false);
-
-    const CLOUD_NAME = "dwrbmcdsq";
-    const UPLOAD_PRESET = "unsigned_upload";
-
-    const API_URL = import.meta.env.VITE_API_URL; 
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -36,16 +34,22 @@ const AddApp = () => {
 
         const res = await fetch(`${API_URL}/upload`, {
             method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            },
             body: formData,
         });
 
         if (!res.ok) throw new Error("Drive upload failed");
-
-        const data = await res.json();
-        return data.webContentLink;
+        return await res.json();
     };
 
     const handleSubmit = async () => {
+        if (!token) {
+            alert("❌ You need to log in first!");
+            return;
+        }
+
         if (!file || !image) {
             alert("Please choose both APK file and image first!");
             return;
@@ -54,26 +58,31 @@ const AddApp = () => {
         setLoading(true);
 
         try {
-            const [fileUrl, imageUrl] = await Promise.all([
+            // Upload both files
+            const [fileRes, imageRes] = await Promise.all([
                 uploadToDrive(file),
                 uploadToDrive(image),
             ]);
 
             const payload = {
                 ...form,
-                apk_url: fileUrl,
-                icon_url: imageUrl,
+                apk_url: fileRes.webContentLink,
+                icon_url: imageRes.webContentLink,
             };
 
             const response = await fetch(`${API_URL}/apps`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                },
                 body: JSON.stringify(payload),
             });
 
             if (!response.ok) throw new Error("Upload failed");
 
             alert("✅ App successfully added!");
+
             setForm({
                 name: "",
                 android_version: "",
@@ -85,6 +94,7 @@ const AddApp = () => {
             });
             setFile(null);
             setImage(null);
+
         } catch (error) {
             alert("❌ Something went wrong: " + error.message);
         } finally {
@@ -102,10 +112,12 @@ const AddApp = () => {
 
                 <div className="add-app-top-section">
                     <div className="add-app-add-apk-and-icon-section">
-                        <FileUpload onFilesSelected={(apk, icon) => {
-                            setFile(apk);
-                            setImage(icon);
-                        }} />
+                        <FileUpload
+                            onFilesSelected={(apk, icon) => {
+                                setFile(apk);
+                                setImage(icon);
+                            }}
+                        />
                     </div>
 
                     <div className="add-app-right-input-section">
@@ -177,8 +189,8 @@ const AddApp = () => {
                                 checked={form.is_game}
                                 onChange={handleChange}
                                 className="add-app-checkbox"
-                            />{" "}
-                            Is a game
+                            />
+                            {" "}Is a game
                         </label>
                     </div>
 
