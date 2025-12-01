@@ -1,5 +1,6 @@
 class UploadsController < ApplicationController
   skip_before_action :verify_authenticity_token
+  before_action :authorize_request
 
   def create
     if params[:file].blank?
@@ -15,7 +16,7 @@ class UploadsController < ApplicationController
       temp_path,
       uploaded_file.original_filename,
       uploaded_file.content_type,
-      ENV['GOOGLE_DRIVE_FOLDER_ID'] # можеш зберігати файли в певній папці
+      ENV['GOOGLE_DRIVE_FOLDER_ID']
     )
 
     render json: {
@@ -23,10 +24,7 @@ class UploadsController < ApplicationController
       webViewLink: result[:view_link],
       webContentLink: result[:download_link]
     }
-
-    rescue => e
-      puts "❌ Something went wrong: #{e.message}"
-      puts e.backtrace
-      render json: { error: e.message }, status: :internal_server_error
+  rescue => e
+    render json: { error: e.message }, status: :internal_server_error
   end
 end
