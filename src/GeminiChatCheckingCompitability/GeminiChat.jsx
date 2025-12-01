@@ -25,15 +25,20 @@ export default function GeminiChat({ onResult }) {
         setLoading(true);
 
         try {
+            const token = localStorage.getItem("token");
+
             const res = await fetch(`${API_URL}/api/v1/gemini-compatibility`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(token ? { "Authorization": `Bearer ${token}` } : {})
+                },
                 body: JSON.stringify({ message: userMessage })
             });
 
             const data = await res.json();
 
-            setMessages(prev => [...prev, { sender: "bot", text: data.response }]);
+            setMessages(prev => [...prev, { sender: "bot", text: data.response || "Помилка формату відповіді" }]);
 
             if (data.phone) {
                 const phoneText =
