@@ -5,8 +5,6 @@ class ApplicationController < ActionController::API
 
   def authorize_request
     @current_user = nil
-
-    # JWT авторизація
     if request.headers['Authorization'].present?
       token = request.headers['Authorization'].split(' ').last
       decoded = JsonWebToken.decode(token) rescue nil
