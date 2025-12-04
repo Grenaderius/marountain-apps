@@ -8,6 +8,12 @@ Rails.application.routes.draw do
 
   post "/upload", to: "uploads#create"
 
+  # Google Drive API
+  post "/drive/upload", to: "google_drive#upload"
+  delete "/drive/files/:id", to: "google_drive#delete"
+  get "/drive/files", to: "google_drive#list"
+  get "/drive/files/:id/download", to: "google_drive#download"
+
   namespace :api do
     namespace :v1 do
       get "hello", to: "hello#index"

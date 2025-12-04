@@ -1,70 +1,61 @@
-require 'google/apis/drive_v3'
-require 'googleauth'
-require 'stringio'
-require 'json'
+require "googleauth"
+require "google/apis/drive_v3"
 
 class GoogleDriveService
-  DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.file'
-
-  DEFAULT_FOLDER_ID = ENV['GOOGLE_DRIVE_FOLDER_ID']
+  SCOPE = ["https://www.googleapis.com/auth/drive"]
 
   def initialize
-    json_key = ENV['GOOGLE_SERVICE_ACCOUNT_JSON']
-    raise "Missing GOOGLE_SERVICE_ACCOUNT_JSON ENV variable" unless json_key
-
-    @auth = Google::Auth::ServiceAccountCredentials.make_creds(
-      json_key_io: StringIO.new(json_key),
-      scope: DRIVE_SCOPE
+    @client_id = Google::Auth::ClientId.new(
+      ENV["CLIENT_ID"],
+      ENV["CLIENT_SECRET"]
     )
-    @auth.fetch_access_token!
 
-    @drive_service = Google::Apis::DriveV3::DriveService.new
-    @drive_service.authorization = @auth
+    @token_store = Google::Auth::Stores::MemoryStore.new
+
+    @user_id = "default_user"
+
+    @token_store.store(@user_id, {
+      refresh_token: ENV["REFRESH_TOKEN"],
+      client_id: ENV["CLIENT_ID"],
+      client_secret: ENV["CLIENT_SECRET"]
+    })
+
+    @authorizer =
+      Google::Auth::UserAuthorizer.new(@client_id, SCOPE, @token_store)
+
+    @credentials = @authorizer.get_credentials(@user_id)
+
+    @credentials.refresh!
+
+    @service = Google::Apis::DriveV3::DriveService.new
+    @service.authorization = @credentials
   end
-
-  def upload_file(file_path, file_name, mime_type, folder_id = nil)
-    raise "Missing GOOGLE_DRIVE_FOLDER_ID ENV variable" unless DEFAULT_FOLDER_ID
-
-  # Перевіряємо чи існує папка
-  puts "DEBUG: Folder ID = #{DEFAULT_FOLDER_ID}"
-  begin
-    @drive_service.get_file(DEFAULT_FOLDER_ID, fields: 'id')
-    puts "DEBUG: Folder_exists = YES"
-  rescue => e
-    puts "DEBUG: Folder_exists = NO, ERROR = #{e.message}"
-  end
-
-    begin
-      @drive_service.get_file(DEFAULT_FOLDER_ID, fields: 'id')
-    rescue Google::Apis::ClientError
-      raise "❌ Folder with ID #{DEFAULT_FOLDER_ID} does not exist!"
-    end
-
-    metadata = {
-      name: file_name,
-      parents: [DEFAULT_FOLDER_ID]
+  
+  def upload_file(path, file_name, mime_type)
+    file_metadata = {
+      name: file_name
     }
 
-    file = @drive_service.create_file(
-      metadata,
-      upload_source: file_path,
+    @service.create_file(
+      file_metadata,
+      upload_source: path,
       content_type: mime_type,
-      fields: 'id, webViewLink, webContentLink'
+      fields: "id"
     )
+  end
+  
+  def delete_file(file_id)
+    @service.delete_file(file_id)
+  end
 
-    permission = Google::Apis::DriveV3::Permission.new(
-      role: 'reader',
-      type: 'anyone'
-    )
-    @drive_service.create_permission(file.id, permission)
 
-    {
-      id: file.id,
-      view_link: file.web_view_link,
-      download_link: file.web_content_link
-    }
-  rescue Google::Apis::Error => e
-    puts "❌ Google API error: #{e.message}"
-    raise "Drive upload failed"
+  def download_file(file_id, local_path)
+    File.open(local_path, "wb") do |file|
+      @service.get_file(file_id, download_dest: file)
+    end
+  end
+
+  def list_files
+    @service.list_files(files: "id, name").files
   end
 end

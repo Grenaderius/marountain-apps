@@ -23,9 +23,15 @@ gem "bcrypt", "~> 3.1.7"
 
 gem "rack-cors"
 
-gem "gemini-ai", "~> 4.3.0"
+#google drive
+# google drive OAuth
+gem "googleauth"
 
 gem 'google-apis-drive_v3'
+
+gem "dotenv-rails"
+
+gem "gemini-ai", "~> 4.3.0"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
