@@ -1,5 +1,6 @@
 require "googleauth"
 require "google/apis/drive_v3"
+require "googleauth/stores/memory_store"
 
 class GoogleDriveService
   SCOPE = ["https://www.googleapis.com/auth/drive"]
