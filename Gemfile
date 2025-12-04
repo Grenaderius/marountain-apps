@@ -25,7 +25,7 @@ gem "rack-cors"
 
 #google drive
 # google drive OAuth
-gem "googleauth"
+gem 'googleauth', '~> 1.3'
 
 gem 'google-apis-drive_v3'
 

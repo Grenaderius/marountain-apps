@@ -1,6 +1,7 @@
 require "googleauth"
 require "google/apis/drive_v3"
-require "googleauth/stores/memory_store"
+require "googleauth/stores/file_token_store"
+@token_store = Google::Auth::Stores::FileTokenStore.new(file: "token.yaml")
 
 class GoogleDriveService
   SCOPE = ["https://www.googleapis.com/auth/drive"]
