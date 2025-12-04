@@ -7,12 +7,12 @@ class GoogleDriveController < ApplicationController
     service = GoogleDriveService.new
 
     result = service.upload_file(
-      file.tempfile.path,
-      file.original_filename,
-      file.content_type
+        file.tempfile.path,
+        file.original_filename,
+        file.content_type
     )
 
-    render json: { id: result.id }
+    render json: result
   end
 
   def delete

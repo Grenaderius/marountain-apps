@@ -12,7 +12,6 @@ class GoogleDriveService
     )
 
     @token_store = Google::Auth::Stores::MemoryStore.new
-
     @user_id = "default_user"
 
     @token_store.store(@user_id, {
@@ -25,30 +24,41 @@ class GoogleDriveService
       Google::Auth::UserAuthorizer.new(@client_id, SCOPE, @token_store)
 
     @credentials = @authorizer.get_credentials(@user_id)
-
     @credentials.refresh!
 
     @service = Google::Apis::DriveV3::DriveService.new
     @service.authorization = @credentials
   end
-  
-  def upload_file(path, file_name, mime_type)
+
+  def upload_file(path, file_name, mime_type, folder_id = nil)
     file_metadata = {
-      name: file_name
+      name: file_name,
+      parents: folder_id ? [folder_id] : nil
     }
 
-    @service.create_file(
+    result = @service.create_file(
       file_metadata,
       upload_source: path,
       content_type: mime_type,
-      fields: "id"
+      fields: "id, webViewLink, webContentLink"
     )
+
+    permission = Google::Apis::DriveV3::Permission.new(
+      type: "anyone",
+      role: "reader"
+    )
+    @service.create_permission(result.id, permission)
+
+    {
+      id: result.id,
+      view_link: result.webViewLink,
+      download_link: result.webContentLink
+    }
   end
-  
+
   def delete_file(file_id)
     @service.delete_file(file_id)
   end
-
 
   def download_file(file_id, local_path)
     File.open(local_path, "wb") do |file|
@@ -57,6 +67,6 @@ class GoogleDriveService
   end
 
   def list_files
-    @service.list_files(files: "id, name").files
+    @service.list_files(fields: "files(id, name)").files
   end
 end
