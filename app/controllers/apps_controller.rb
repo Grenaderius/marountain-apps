@@ -31,11 +31,12 @@ class AppsController < ApplicationController
     render json: apps
   end
 
-  def drive_direct_link(view_link)
-    return nil unless view_link
-    file_id = view_link.match(/\/d\/(.*?)\//)&.
-    file_id ? "https://drive.google.com/uc?export=view&id=#{file_id}" : view_link
-  end
+def drive_direct_link(url)
+  match = url.match(/\/d\/([a-zA-Z0-9_-]+)/)
+  return "" unless match
+  file_id = match[1]
+  "https://drive.google.com/uc?export=download&id=#{file_id}"
+end
 
   def show
     app = App.find_by(id: params[:id])
