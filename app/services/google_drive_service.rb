@@ -1,40 +1,25 @@
-require "googleauth"
 require "google/apis/drive_v3"
-require "googleauth/stores/file_token_store"
-@token_store = Google::Auth::Stores::FileTokenStore.new(file: "token.yaml")
+require "googleauth"
 
 class GoogleDriveService
-  SCOPE = ["https://www.googleapis.com/auth/drive"]
-
   def initialize
-    @client_id = Google::Auth::ClientId.new(
-      ENV["CLIENT_ID"],
-      ENV["CLIENT_SECRET"]
+    @service = Google::Apis::DriveV3::DriveService.new
+
+    @service.authorization = Signet::OAuth2::Client.new(
+      client_id: ENV["CLIENT_ID"],
+      client_secret: ENV["CLIENT_SECRET"],
+      refresh_token: ENV["REFRESH_TOKEN"],
+      token_credential_uri: "https://oauth2.googleapis.com/token"
     )
 
-    @token_store = Google::Auth::Stores::MemoryStore.new
-    @user_id = "default_user"
-
-    @token_store.store(@user_id, {
-      refresh_token: ENV["REFRESH_TOKEN"],
-      client_id: ENV["CLIENT_ID"],
-      client_secret: ENV["CLIENT_SECRET"]
-    })
-
-    @authorizer =
-      Google::Auth::UserAuthorizer.new(@client_id, SCOPE, @token_store)
-
-    @credentials = @authorizer.get_credentials(@user_id)
-    @credentials.refresh!
-
-    @service = Google::Apis::DriveV3::DriveService.new
-    @service.authorization = @credentials
+    # оновлюємо access_token
+    @service.authorization.fetch_access_token!
   end
 
-  def upload_file(path, file_name, mime_type, folder_id = nil)
+  def upload_file(path, file_name, mime_type)
     file_metadata = {
       name: file_name,
-      parents: folder_id ? [folder_id] : nil
+      parents: [ENV["FOLDER_ID"]]   # зберігати в конкретну папку
     }
 
     result = @service.create_file(
@@ -44,6 +29,7 @@ class GoogleDriveService
       fields: "id, webViewLink, webContentLink"
     )
 
+    # робимо публічним
     permission = Google::Apis::DriveV3::Permission.new(
       type: "anyone",
       role: "reader"
@@ -55,19 +41,5 @@ class GoogleDriveService
       view_link: result.webViewLink,
       download_link: result.webContentLink
     }
-  end
-
-  def delete_file(file_id)
-    @service.delete_file(file_id)
-  end
-
-  def download_file(file_id, local_path)
-    File.open(local_path, "wb") do |file|
-      @service.get_file(file_id, download_dest: file)
-    end
-  end
-
-  def list_files
-    @service.list_files(fields: "files(id, name)").files
   end
 end
