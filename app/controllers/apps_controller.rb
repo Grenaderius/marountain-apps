@@ -22,13 +22,19 @@ class AppsController < ApplicationController
       {
         id: app.id,
         name: app.name,
-        photo_url: app.photo_path,  # <-- фронт чекає саме photo_url
+        photo_url:drive_direct_link(app.photo_path),  # <-- фронт чекає саме photo_url
         is_game: app.is_game,
         rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0
       }
     end
 
     render json: apps
+  end
+
+  def drive_direct_link(view_link)
+    return nil unless view_link
+    file_id = view_link.match(/\/d\/(.*?)\//)&.
+    file_id ? "https://drive.google.com/uc?export=view&id=#{file_id}" : view_link
   end
 
   def show
@@ -39,8 +45,8 @@ class AppsController < ApplicationController
         id: app.id,
         name: app.name,
         description: app.description,
-        photo_url: app.photo_path,   # <-- фронт чекає photo_url
-        apk_file_id: app.apk_path,   # <-- фронт чекає apk_file_id
+        photo_url: drive_direct_link(app.photo_path),
+        apk_file_id: app.apk_path,
         is_game: app.is_game,
         cost: app.cost,
         size: app.size,
@@ -56,6 +62,6 @@ class AppsController < ApplicationController
   private
 
   def app_params
-    params.require(:app).permit(:name, :description, :is_game, :cost, :size, :android_min_version, :ram_needed)
+    params.require(:app).permit(:name, :description, :dev_id, :is_game, :cost, :size, :android_min_version, :ram_needed)
   end
 end
