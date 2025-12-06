@@ -1,18 +1,26 @@
 Rails.application.routes.draw do
-resources :apps
+  # JWT Auth
+  post "/login", to: "auth#login"
+
+  resources :apps
   resources :users, only: [:index, :show, :create]
-  resources :comments, only: [:index, :create]
+  resources :comments, only: [:index, :create, :update, :destroy]
+
+  post "/upload", to: "uploads#create"
+
+  # Google Drive API
+  post "/drive/upload", to: "google_drive#upload"
+  delete "/drive/files/:id", to: "google_drive#delete"
+  get "/drive/files", to: "google_drive#list"
+  get "/drive/files/:id/download", to: "google_drive#download"
 
   namespace :api do
     namespace :v1 do
       get "hello", to: "hello#index"
+      post "gemini-compatibility", to: "gemini#compatibility"
     end
   end
 
-  post "/login", to: "sessions#create"
-
   root "home#index"
-
-  # щоб React міг обробляти свої маршрути
   get "*path", to: "home#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 end

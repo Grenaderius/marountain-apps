@@ -1,26 +1,15 @@
 class AppsController < ApplicationController
-  # GET /apps
-  def index
-    apps = App.all.map do |app|
-      {
-        id: app.id,
-        name: app.name,
-        photo: app.photo_path,
-        rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0
-      }
-    end
-    render json: apps
-  end
+  skip_before_action :authorize_request, only: [:index, :show]
+  before_action :authorize_request, only: [:create, :update, :destroy]
 
-  # GET /apps/:id
-  def show
-    app = App.find(params[:id])
-    render json: app, include: :comments
-  end
-
-  # POST /apps
   def create
-    app = App.new(app_params)
+    drive = GoogleDriveService.new
+
+    photo_link = params[:photo].present? ? drive.upload_file(params[:photo].tempfile.path, params[:photo].original_filename, params[:photo].content_type)[:view_link] : nil
+    apk_link   = params[:apk].present? ? drive.upload_file(params[:apk].tempfile.path, params[:apk].original_filename, params[:apk].content_type)[:view_link] : nil
+
+    app = App.new(app_params.merge(dev_id: @current_user.id, photo_path: photo_link, apk_path: apk_link))
+
     if app.save
       render json: app, status: :created
     else
@@ -28,38 +17,52 @@ class AppsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /apps/:id
-  def update
-    app = App.find(params[:id])
-    if app.update(app_params)
-      render json: app, status: :ok
-    else
-      render json: { errors: app.errors.full_messages }, status: :unprocessable_entity
+  def index
+    apps = App.all.map do |app|
+      {
+        id: app.id,
+        name: app.name,
+        photo_url:drive_direct_link(app.photo_path),  # <-- фронт чекає саме photo_url
+        is_game: app.is_game,
+        rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0
+      }
     end
+
+    render json: apps
   end
 
-  # DELETE /apps/:id
-  def destroy
-    app = App.find(params[:id])
-    app.destroy
-    head :no_content
+def drive_direct_link(url)
+  match = url.match(/\/d\/([a-zA-Z0-9_-]+)/)
+  return "" unless match
+  file_id = match[1]
+  "https://drive.google.com/uc?export=download&id=#{file_id}"
+end
+
+  def show
+    app = App.find_by(id: params[:id])
+
+    if app
+      render json: {
+        id: app.id,
+        name: app.name,
+        description: app.description,
+        photo_url: drive_direct_link(app.photo_path),
+        apk_file_id: app.apk_path,
+        is_game: app.is_game,
+        cost: app.cost,
+        size: app.size,
+        android_min_version: app.android_min_version,
+        ram_needed: app.ram_needed,
+        rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0
+      }
+    else
+      render json: { error: "App not found" }, status: :not_found
+    end
   end
 
   private
 
   def app_params
-    params.require(:app).permit(
-      :name,
-      :description,
-      :is_game,
-      :dev_id,
-      :cost,
-      :size,
-      :android_min_version,
-      :ram_needed,
-      :photo_path,
-      :apk_path,
-      :downloads_count
-    )
+    params.require(:app).permit(:name, :description, :dev_id, :is_game, :cost, :size, :android_min_version, :ram_needed)
   end
 end
