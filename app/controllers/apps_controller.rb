@@ -48,7 +48,7 @@ class AppsController < ApplicationController
       {
         id: app.id,
         name: app.name,
-        photo: app.photo_path,
+        photo_url: app.photo_path,
         is_game: app.is_game,
         rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0
       }
