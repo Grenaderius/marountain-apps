@@ -5,36 +5,10 @@ class AppsController < ApplicationController
   def create
     drive = GoogleDriveService.new
 
-    photo_link = nil
-    apk_link = nil
+    photo_link = params[:photo].present? ? drive.upload_file(params[:photo].tempfile.path, params[:photo].original_filename, params[:photo].content_type)[:view_link] : nil
+    apk_link   = params[:apk].present? ? drive.upload_file(params[:apk].tempfile.path, params[:apk].original_filename, params[:apk].content_type)[:view_link] : nil
 
-    if params[:photo].present?
-      uploaded_photo = params[:photo]
-      result = drive.upload_file(
-        uploaded_photo.tempfile.path,
-        uploaded_photo.original_filename,
-        uploaded_photo.content_type
-      )
-      photo_link = result[:view_link]
-    end
-
-    if params[:apk].present?
-      uploaded_apk = params[:apk]
-      result = drive.upload_file(
-        uploaded_apk.tempfile.path,
-        uploaded_apk.original_filename,
-        uploaded_apk.content_type
-      )
-      apk_link = result[:view_link]
-    end
-
-    app = App.new(
-      app_params.merge(
-        dev_id: @current_user.id,
-        photo_path: photo_link,
-        apk_path: apk_link
-      )
-    )
+    app = App.new(app_params.merge(dev_id: @current_user.id, photo_path: photo_link, apk_path: apk_link))
 
     if app.save
       render json: app, status: :created
@@ -48,7 +22,7 @@ class AppsController < ApplicationController
       {
         id: app.id,
         name: app.name,
-        photo_url: app.photo_path,
+        photo_url: app.photo_path,  # <-- фронт чекає саме photo_url
         is_game: app.is_game,
         rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0
       }
@@ -65,8 +39,8 @@ class AppsController < ApplicationController
         id: app.id,
         name: app.name,
         description: app.description,
-        photo: app.photo_path,
-        apk: app.apk_path,
+        photo_url: app.photo_path,   # <-- фронт чекає photo_url
+        apk_file_id: app.apk_path,   # <-- фронт чекає apk_file_id
         is_game: app.is_game,
         cost: app.cost,
         size: app.size,
@@ -82,14 +56,6 @@ class AppsController < ApplicationController
   private
 
   def app_params
-    params.require(:app).permit(
-      :name,
-      :description,
-      :is_game,
-      :cost,
-      :size,
-      :android_min_version,
-      :ram_needed
-    )
+    params.require(:app).permit(:name, :description, :is_game, :cost, :size, :android_min_version, :ram_needed)
   end
 end
