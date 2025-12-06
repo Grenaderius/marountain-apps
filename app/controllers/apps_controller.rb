@@ -43,6 +43,19 @@ class AppsController < ApplicationController
       end
     end
 
+    def index
+      apps = App.all.map do |app|
+        {
+          id: app.id,
+          name: app.name,
+          photo: app.photo_path,
+          rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0
+        }
+      end
+
+      render json: apps
+    end
+
   private
 
   def app_params
