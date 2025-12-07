@@ -1,6 +1,6 @@
 class AppsController < ApplicationController
   skip_before_action :authorize_request, only: [:index, :show]
-  before_action :authorize_request, only: [:create, :update, :destroy]
+  before_action :authorize_request, only: [:create, :update, :destroy, :my]
 
   def create
     drive = GoogleDriveService.new
@@ -15,6 +15,20 @@ class AppsController < ApplicationController
     else
       render json: { errors: app.errors.full_messages }, status: :unprocessable_entity
     end
+  end
+
+  def my
+    apps = App.where(dev_id: @current_user.id).map do |app|
+      {
+        id: app.id,
+        name: app.name,
+        photo_url: app.photo_path.present? ? drive_direct_link(app.photo_path) : nil,
+        is_game: app.is_game,
+        rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0
+      }
+    end
+
+    render json: apps
   end
 
   def index

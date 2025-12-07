@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :comments, only: [:index, :create, :update, :destroy]
 
   post "/upload", to: "uploads#create"
+  get "/apps/my", to: "apps#my"
 
   # Google Drive API
   post "/drive/upload", to: "google_drive#upload"
