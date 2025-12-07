@@ -83,7 +83,7 @@ const SignUp = () => {
             </div>
 
             <div className="login-buttons-section">
-                <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}>
+                <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
                     <button className="login-login-btn">Log in</button>
                 </Link>
                 <button className="login-signup-btn" onClick={handleSignUp}>

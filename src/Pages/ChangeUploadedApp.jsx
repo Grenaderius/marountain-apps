@@ -1,8 +1,11 @@
-﻿import React, { useState } from "react";
+﻿import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import "./AddApp.css";
 import FileUpload from "./PageComponents/FileUpload";
 
-const AddApp = () => {
+const ChangeUploadedApp = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
     const [form, setForm] = useState({
         name: "",
         android_version: "",
@@ -13,12 +16,37 @@ const AddApp = () => {
         is_game: false,
     });
 
-    const token = localStorage.getItem("token");
-    const API_URL = import.meta.env.VITE_API_URL;
-
     const [file, setFile] = useState(null);
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    const token = localStorage.getItem("token");
+    const API_URL = import.meta.env.VITE_API_URL;
+
+    // Підвантаження даних додатку
+    useEffect(() => {
+        const fetchApp = async () => {
+            try {
+                const res = await fetch(`${API_URL}/apps/${id}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                if (!res.ok) throw new Error("Failed to fetch app");
+                const data = await res.json();
+                setForm({
+                    name: data.name || "",
+                    android_version: data.android_min_version || "",
+                    ram: data.ram_needed || "",
+                    cost: data.cost || "",
+                    storage: data.size || "",
+                    description: data.description || "",
+                    is_game: data.is_game || false,
+                });
+            } catch (err) {
+                alert("❌ " + err.message);
+            }
+        };
+        fetchApp();
+    }, [id, token]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -34,21 +62,13 @@ const AddApp = () => {
             return;
         }
 
-        if (!file || !image) {
-            alert("Please choose both APK file and image!");
-            return;
-        }
-
         setLoading(true);
-
         try {
             const formData = new FormData();
 
-            // Files
-            formData.append("apk", file);
-            formData.append("photo", image);
+            if (file) formData.append("apk", file);
+            if (image) formData.append("photo", image);
 
-            // App fields
             formData.append("app[name]", form.name);
             formData.append("app[description]", form.description);
             formData.append("app[is_game]", form.is_game);
@@ -57,35 +77,21 @@ const AddApp = () => {
             formData.append("app[android_min_version]", form.android_version);
             formData.append("app[ram_needed]", form.ram);
 
-            const response = await fetch(`${API_URL}/apps`, {
-                method: "POST",
+            const response = await fetch(`${API_URL}/apps/${id}`, {
+                method: "PATCH",
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    // NO Content-Type — browser sets correct multipart boundary
                 },
                 body: formData,
             });
 
             if (!response.ok) {
                 const err = await response.json();
-                throw new Error(err.error || "Upload failed");
+                throw new Error(err.error || "Update failed");
             }
 
-            alert("✅ App successfully added!");
-
-            // Reset form
-            setForm({
-                name: "",
-                android_version: "",
-                ram: "",
-                cost: "",
-                storage: "",
-                description: "",
-                is_game: false,
-            });
-            setFile(null);
-            setImage(null);
-
+            alert("✅ App successfully updated!");
+            navigate("/my-apps");
         } catch (error) {
             alert("❌ Error: " + error.message);
         } finally {
@@ -100,7 +106,7 @@ const AddApp = () => {
 
             <div className="add-app-layout">
                 <h1 className="add-app-header-text">
-                    Add your app to our store here!
+                    Edit your app here!
                 </h1>
 
                 <div className="add-app-top-section">
@@ -185,7 +191,7 @@ const AddApp = () => {
                         onClick={handleSubmit}
                         disabled={loading}
                     >
-                        {loading ? "Uploading..." : "Add"}
+                        {loading ? "Updating..." : "Update"}
                     </button>
                 </div>
             </div>
@@ -193,4 +199,4 @@ const AddApp = () => {
     );
 };
 
-export default AddApp;
+export default ChangeUploadedApp;

@@ -31,7 +31,7 @@ export default function Header() {
 
                 {/* Посилання + дропдаун */}
                 <div className="nav-links">
-                    <Link to="/" className="nav-link">Games</Link>
+                    <Link to="/games" className="nav-link">Games</Link>
                     <Link to="/apps" className="nav-link">Apps</Link>
 
                     <div className="dropdown" ref={dropdownRef}>
@@ -46,7 +46,7 @@ export default function Header() {
                                 <Link to="/add-app" style={{ textDecoration: "none", color: "inherit" }}><li className="dropdown-item">Add app</li></Link>
                                 <Link to="/my-apps" style={{ textDecoration: "none", color: "inherit" }}><li className="dropdown-item">View uploaded apps</li></Link>
                                 {/*gap */}
-                                <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}><li className="dropdown-item">login</li></Link>
+                                <Link to="/" style={{ textDecoration: "none", color: "inherit" }}><li className="dropdown-item">login</li></Link>
                             </ul>
                         )}
                     </div>

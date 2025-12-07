@@ -165,11 +165,11 @@ const AppDetails = () => {
                 <h1 className="app-details-header">{app.name}</h1>
 
                 <div className="app-details-top">
-                    <img src={app.photo_path} className="app-details-icon" alt="App icon" />
+                    <img src={app.photo_url} className="app-details-icon" alt="App icon" />
                     <div className="app-details-info">
                         <p><span>Rating:</span> {averageRating} ★</p>
                         <p><span>Price:</span> {app.cost ? `${app.cost} USD` : "Free"}</p>
-                        <p><span>Uploaded by:</span> {app.dev?.name || "Unknown"}</p>
+                        <p><span>Uploaded by:</span> {app.dev?.email || "Unknown"}</p>
                         <p><span>Minimal Android version:</span> {app.android_min_version}</p>
                         <p><span>Minimal RAM needed:</span> {app.ram_needed} GB</p>
                         <p><span>Max size needed:</span> {app.size} MB</p>
@@ -177,8 +177,15 @@ const AppDetails = () => {
                 </div>
 
                 <div className="app-details-download-section">
-                    {app.apk_path ? (
-                        <a className="app-details-download" href={app.apk_path} target="_blank" rel="noreferrer">Download APK</a>
+                    {app.apk_file_id ? (
+                        <a
+                            className="app-details-download"
+                            href={`${app.apk_file_id}`}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            Download APK
+                        </a>
                     ) : (
                         <button className="app-details-download" disabled>No APK</button>
                     )}

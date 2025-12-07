@@ -11,7 +11,7 @@ export default function FileUpload({ onFilesSelected }) {
         onFilesSelected(f, image);
     };
 
-    const handleImageChange = (e) => {  
+    const handleImageChange = (e) => {
         const img = e.target.files[0];
         setImage(img);
         onFilesSelected(file, img);
@@ -34,7 +34,7 @@ export default function FileUpload({ onFilesSelected }) {
                             <p>{file.name}</p>
                         </div>
                     ) : (
-                        <span>Choose file (.apk)</span>
+                        <span>Choose APK file</span>
                     )}
                 </label>
             </div>
@@ -55,7 +55,7 @@ export default function FileUpload({ onFilesSelected }) {
                             className="image-preview"
                         />
                     ) : (
-                        <span>Choose a photo (250×250px)</span>
+                        <span>Choose app icon</span>
                     )}
                 </label>
             </div>

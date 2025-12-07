@@ -16,7 +16,7 @@ const Login = () => {
             const response = await fetch(`${API_URL}/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ session: { email, password } }), 
+                body: JSON.stringify({ session: { email, password } }),
             });
 
             const data = await response.json().catch(() => null);
@@ -29,7 +29,7 @@ const Login = () => {
             localStorage.setItem("token", data.token);
             localStorage.setItem("user", JSON.stringify(data.user));
 
-            navigate("/");
+            navigate("/games");
         } catch (error) {
             console.error("Login error:", error);
             setErrorMsg("Server error. Try again later.");
@@ -63,10 +63,7 @@ const Login = () => {
                 <button className="login-login-btn" onClick={handleLogin}>
                     Log in
                 </button>
-                <Link
-                    to="/sign-up"
-                    style={{ textDecoration: "none", color: "inherit" }}
-                >
+                <Link to="/sign-up" style={{ textDecoration: "none", color: "inherit" }}>
                     <button className="login-signup-btn">Sign up</button>
                 </Link>
             </div>

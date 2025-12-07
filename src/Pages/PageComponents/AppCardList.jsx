@@ -10,18 +10,7 @@ const AppCardsList = ({ filterBy }) => {
     useEffect(() => {
         const fetchApps = async () => {
             try {
-                const token = localStorage.getItem("token"); 
-                if (!token) {
-                    setError("You are not logged in.");
-                    return;
-                }
-
-                const res = await fetch(`${API_URL}/apps`, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}` 
-                    }
-                });
+                const res = await fetch(`${API_URL}/apps`);
 
                 if (!res.ok) {
                     throw new Error(`Server responded with ${res.status}`);
@@ -57,7 +46,7 @@ const AppCardsList = ({ filterBy }) => {
                     id={item.id || 0}
                     name={item.name || "Not Found"}
                     rating={item.rating || "none"}
-                    photo={item.photo || "/images/main-background.png"}
+                    photo={item.photo_url || "/images/main-background.png"}
                 />
             ))}
         </div>
