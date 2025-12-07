@@ -22,7 +22,8 @@ class AppsController < ApplicationController
       {
         id: app.id,
         name: app.name,
-        photo_url:drive_direct_link(app.photo_path),  # <-- фронт чекає саме photo_url
+        dev_id: app.dev_id,                  # <-- додати
+        photo_url: drive_direct_link(app.photo_path),
         is_game: app.is_game,
         rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0
       }
