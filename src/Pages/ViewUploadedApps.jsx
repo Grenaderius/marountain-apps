@@ -36,7 +36,7 @@ const ViewUploadedApps = () => {
     };
 
     const handleDelete = async (id) => {
-        if (!window.confirm("Ви впевнені, що хочете видалити цей додаток?")) return;
+        if (!window.confirm("Are you shure you want to delete this app?")) return;
 
         try {
             const token = localStorage.getItem("token");

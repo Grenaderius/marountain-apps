@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "P:\\Programming\\ruby_front\\frontend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Programming\\ruby_front\\frontend\\src\\App.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\App.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Programming\\ruby_front\\frontend\\src\\Pages\\ViewUploadedApps.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Pages\\ViewUploadedApps.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Programming\\ruby_front\\frontend\\src\\Pages\\SignUp.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Pages\\SignUp.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Programming\\ruby_front\\frontend\\src\\Navigation\\Header.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Navigation\\Header.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
@@ -11,20 +23,12 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Pages\\Login.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Programming\\ruby_front\\frontend\\src\\Pages\\SignUp.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Pages\\SignUp.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Programming\\ruby_front\\frontend\\src\\App.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\App.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Programming\\ruby_front\\frontend\\src\\Pages\\ChangeUploadedApp.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Pages\\ChangeUploadedApp.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Programming\\ruby_front\\frontend\\src\\Pages\\ViewUploadedApps.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Pages\\ViewUploadedApps.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Programming\\ruby_front\\frontend\\src\\Pages\\ViewUploadedApps.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
@@ -83,10 +87,6 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Pages\\AppDetails.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Programming\\ruby_front\\frontend\\src\\App.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\App.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Programming\\ruby_front\\frontend\\src\\Pages\\Games.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Pages\\Games.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     }
@@ -98,7 +98,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 21,
           "Children": [
             {
               "$type": "Bookmark",
@@ -110,7 +110,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "AppCard.jsx",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\PageComponents\\AppCard.jsx",
               "RelativeDocumentMoniker": "src\\Pages\\PageComponents\\AppCard.jsx",
@@ -122,20 +122,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Header.jsx",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Navigation\\Header.jsx",
               "RelativeDocumentMoniker": "src\\Navigation\\Header.jsx",
               "ToolTip": "P:\\Programming\\ruby_front\\frontend\\src\\Navigation\\Header.jsx",
               "RelativeToolTip": "src\\Navigation\\Header.jsx",
-              "ViewState": "AgIAAAoAAAAAAAAAAAA1wBkAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAQwBkAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
               "WhenOpened": "2025-12-07T16:48:30.276Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "ChangeUploadedApp.jsx",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\ChangeUploadedApp.jsx",
               "RelativeDocumentMoniker": "src\\Pages\\ChangeUploadedApp.jsx",
@@ -147,7 +147,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Header.css",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Navigation\\Header.css",
               "RelativeDocumentMoniker": "src\\Navigation\\Header.css",
@@ -159,7 +159,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "ViewUploadedApps.css",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\ViewUploadedApps.css",
               "RelativeDocumentMoniker": "src\\Pages\\ViewUploadedApps.css",
@@ -167,11 +167,12 @@
               "RelativeToolTip": "src\\Pages\\ViewUploadedApps.css",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-12-07T15:01:46.719Z"
+              "WhenOpened": "2025-12-07T15:01:46.719Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "ViewUploadedApps.jsx",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\ViewUploadedApps.jsx",
               "RelativeDocumentMoniker": "src\\Pages\\ViewUploadedApps.jsx",
@@ -183,7 +184,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "AppCardList.jsx",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\PageComponents\\AppCardList.jsx",
               "RelativeDocumentMoniker": "src\\Pages\\PageComponents\\AppCardList.jsx",
@@ -195,7 +196,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "FileUpload.jsx",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\PageComponents\\FileUpload.jsx",
               "RelativeDocumentMoniker": "src\\Pages\\PageComponents\\FileUpload.jsx",
@@ -207,7 +208,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "GeminiChat.css",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\GeminiChatCheckingCompitability\\GeminiChat.css",
               "RelativeDocumentMoniker": "src\\GeminiChatCheckingCompitability\\GeminiChat.css",
@@ -219,7 +220,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "SideBar.css",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\SideBar\\SideBar.css",
               "RelativeDocumentMoniker": "src\\SideBar\\SideBar.css",
@@ -231,7 +232,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "GeminiChat.jsx",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\GeminiChatCheckingCompitability\\GeminiChat.jsx",
               "RelativeDocumentMoniker": "src\\GeminiChatCheckingCompitability\\GeminiChat.jsx",
@@ -243,7 +244,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "AddApp.jsx",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\AddApp.jsx",
               "RelativeDocumentMoniker": "src\\Pages\\AddApp.jsx",
@@ -255,7 +256,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "SideBar.jsx",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\SideBar\\SideBar.jsx",
               "RelativeDocumentMoniker": "src\\SideBar\\SideBar.jsx",
@@ -267,7 +268,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "Login.jsx",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\Login.jsx",
               "RelativeDocumentMoniker": "src\\Pages\\Login.jsx",
@@ -279,7 +280,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "App.jsx",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\App.jsx",
               "RelativeDocumentMoniker": "src\\App.jsx",
@@ -291,7 +292,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "AppDetails.jsx",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\AppDetails.jsx",
               "RelativeDocumentMoniker": "src\\Pages\\AppDetails.jsx",
@@ -303,7 +304,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "Games.jsx",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\Games.jsx",
               "RelativeDocumentMoniker": "src\\Pages\\Games.jsx",
@@ -315,7 +316,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "AppDetails.css",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\AppDetails.css",
               "RelativeDocumentMoniker": "src\\Pages\\AppDetails.css",
@@ -333,13 +334,14 @@
               "RelativeDocumentMoniker": "src\\Pages\\SignUp.jsx",
               "ToolTip": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\SignUp.jsx",
               "RelativeToolTip": "src\\Pages\\SignUp.jsx",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAQwFQAAAAzAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFQAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-12-01T10:13:19.442Z"
+              "WhenOpened": "2025-12-01T10:13:19.442Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 0,
               "Title": "App.css",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\App.css",
               "RelativeDocumentMoniker": "src\\App.css",
@@ -347,11 +349,12 @@
               "RelativeToolTip": "src\\App.css",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-11-30T17:21:27.531Z"
+              "WhenOpened": "2025-11-30T17:21:27.531Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Apps.jsx",
               "DocumentMoniker": "P:\\Programming\\ruby_front\\frontend\\src\\Pages\\Apps.jsx",
               "RelativeDocumentMoniker": "src\\Pages\\Apps.jsx",
