@@ -55,7 +55,7 @@ class AppsController < ApplicationController
         android_min_version: app.android_min_version,
         ram_needed: app.ram_needed,
         rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0,
-        dev: app.dev ? { id: app.dev.id, name: app.dev.name, email: app.dev.email } : nil
+        dev: app.dev ? { id: app.dev.id, email: app.dev.email } : nil
       }
     else
       render json: { error: "App not found" }, status: :not_found
