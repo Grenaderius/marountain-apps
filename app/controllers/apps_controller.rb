@@ -39,7 +39,6 @@ class AppsController < ApplicationController
 
     drive = GoogleDriveService.new
 
-    # Лише якщо присутній файл — завантажуємо і оновлюємо
     if params[:photo].present?
       photo_link = drive.upload_file(
         params[:photo].tempfile.path,
@@ -58,7 +57,16 @@ class AppsController < ApplicationController
       app.apk_path = apk_link
     end
 
-    if app.update(app_params)
+    updatable_fields = {}
+    updatable_fields[:name] = params[:app][:name].strip if params[:app][:name].present? && params[:app][:name].strip != ""
+    updatable_fields[:description] = params[:app][:description].strip if params[:app][:description].present? && params[:app][:description].strip != ""
+    updatable_fields[:cost] = params[:app][:cost] if params[:app][:cost].present?
+    updatable_fields[:size] = params[:app][:size] if params[:app][:size].present?
+    updatable_fields[:android_min_version] = params[:app][:android_min_version] if params[:app][:android_min_version].present?
+    updatable_fields[:ram_needed] = params[:app][:ram_needed] if params[:app][:ram_needed].present?
+    updatable_fields[:is_game] = params[:app][:is_game] unless params[:app][:is_game].nil? # checkbox може бути false
+
+    if app.update(updatable_fields)
       render json: app
     else
       render json: { errors: app.errors.full_messages }, status: :unprocessable_entity
@@ -66,6 +74,7 @@ class AppsController < ApplicationController
   end
 
   def my
+    drive = GoogleDriveService.new
     apps = App.where(dev_id: @current_user.id).map do |app|
       {
         id: app.id,
@@ -80,6 +89,7 @@ class AppsController < ApplicationController
   end
 
   def index
+    drive = GoogleDriveService.new
     apps = App.all.map do |app|
       {
         id: app.id,
@@ -133,6 +143,7 @@ class AppsController < ApplicationController
   end
 
   def drive_direct_link(url)
+    return nil unless url
     match = url.match(/\/d\/([a-zA-Z0-9_-]+)/)
     return nil unless match
 
