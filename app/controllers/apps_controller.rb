@@ -30,44 +30,40 @@ class AppsController < ApplicationController
     end
   end
 
-    def update
-      app = App.find_by(id: params[:id])
-      return render json: { error: "App not found" }, status: :not_found unless app
-      return render json: { error: "Forbidden" }, status: :forbidden unless app.dev_id == @current_user.id
+  def update
+    app = App.find(params[:id])
 
-      drive = GoogleDriveService.new
-
-      if params[:photo].present?
-        drive.delete_file(app.photo_path.split("/d/").last.split("/")[0]) if app.photo_path.present?
-
-        photo_link = drive.upload_file(
-          params[:photo].tempfile.path,
-          params[:photo].original_filename,
-          params[:photo].content_type
-        )[:web_view_link]
-
-        app.photo_path = photo_link
-      end
-
-      if params[:apk].present?
-        drive.delete_file(app.apk_path.split("/d/").last.split("/")[0]) if app.apk_path.present?
-
-        apk_link = drive.upload_file(
-          params[:apk].tempfile.path,
-          params[:apk].original_filename,
-          params[:apk].content_type
-        )[:web_view_link]
-
-        app.apk_path = apk_link
-      end
-
-      if app.update(app_params)
-        render json: app
-      else
-        render json: { errors: app.errors.full_messages }, status: :unprocessable_entity
-      end
+    unless app.dev_id == @current_user.id
+      return render json: { error: "Forbidden" }, status: :forbidden
     end
 
+    drive = GoogleDriveService.new
+
+    # Лише якщо присутній файл — завантажуємо і оновлюємо
+    if params[:photo].present?
+      photo_link = drive.upload_file(
+        params[:photo].tempfile.path,
+        params[:photo].original_filename,
+        params[:photo].content_type
+      )[:view_link]
+      app.photo_path = photo_link
+    end
+
+    if params[:apk].present?
+      apk_link = drive.upload_file(
+        params[:apk].tempfile.path,
+        params[:apk].original_filename,
+        params[:apk].content_type
+      )[:view_link]
+      app.apk_path = apk_link
+    end
+
+    if app.update(app_params)
+      render json: app
+    else
+      render json: { errors: app.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
 
   def my
     apps = App.where(dev_id: @current_user.id).map do |app|
