@@ -18,6 +18,9 @@ class AppsController < ApplicationController
   end
 
   def my
+    puts "CURRENT USER:"
+    puts @current_user.inspect
+
     apps = App.where(dev_id: @current_user.id).map do |app|
       {
         id: app.id,
