@@ -5,10 +5,23 @@ class AppsController < ApplicationController
   def create
     drive = GoogleDriveService.new
 
-    photo_link = params[:photo].present? ? drive.upload_file(params[:photo].tempfile.path, params[:photo].original_filename, params[:photo].content_type)[:view_link] : nil
-    apk_link   = params[:apk].present? ? drive.upload_file(params[:apk].tempfile.path, params[:apk].original_filename, params[:apk].content_type)[:view_link] : nil
+    photo_link = params[:photo].present? ? drive.upload_file(
+      params[:photo].tempfile.path,
+      params[:photo].original_filename,
+      params[:photo].content_type
+    )[:view_link] : nil
 
-    app = App.new(app_params.merge(dev_id: @current_user.id, photo_path: photo_link, apk_path: apk_link))
+    apk_link = params[:apk].present? ? drive.upload_file(
+      params[:apk].tempfile.path,
+      params[:apk].original_filename,
+      params[:apk].content_type
+    )[:view_link] : nil
+
+    app = App.new(app_params.merge(
+      dev_id: @current_user.id,
+      photo_path: photo_link,
+      apk_path: apk_link
+    ))
 
     if app.save
       render json: app, status: :created
@@ -18,10 +31,6 @@ class AppsController < ApplicationController
   end
 
   def my
-    unless @current_user
-      return render json: { error: "Unauthorized" }, status: :unauthorized
-    end
-
     apps = App.where(dev_id: @current_user.id).map do |app|
       {
         id: app.id,
@@ -40,7 +49,7 @@ class AppsController < ApplicationController
       {
         id: app.id,
         name: app.name,
-        dev_id: app.dev_id,                  # <-- додати
+        dev_id: app.dev_id,
         photo_url: drive_direct_link(app.photo_path),
         is_game: app.is_game,
         rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0
@@ -50,42 +59,58 @@ class AppsController < ApplicationController
     render json: apps
   end
 
-  def drive_direct_link(url)
-    match = url.match(/\/d\/([a-zA-Z0-9_-]+)/)
-    return "" unless match
-
-    file_id = match[1]
-    "https://drive.google.com/thumbnail?id=#{file_id}&sz=w500"
-  end
-
   def show
     app = App.find_by(id: params[:id])
 
-    if app
-      render json: {
-        id: app.id,
-        name: app.name,
-        description: app.description,
-        photo_url: drive_direct_link(app.photo_path),
-        apk_file_id: app.apk_path,
-        is_game: app.is_game,
-        cost: app.cost,
-        size: app.size,
-        android_min_version: app.android_min_version,
-        ram_needed: app.ram_needed,
-        rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0,
-        dev: app.dev ? { id: app.dev.id, email: app.dev.email } : nil
-      }
-    else
-      render json: { error: "App not found" }, status: :not_found
+    unless app
+      return render json: { error: "App not found" }, status: :not_found
     end
+
+    render json: {
+      id: app.id,
+      name: app.name,
+      description: app.description,
+      photo_url: drive_direct_link(app.photo_path),
+      apk_file_id: app.apk_path,
+      is_game: app.is_game,
+      cost: app.cost,
+      size: app.size,
+      android_min_version: app.android_min_version,
+      ram_needed: app.ram_needed,
+      rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0,
+      dev: app.dev ? { id: app.dev.id, email: app.dev.email } : nil
+    }
+  end
+
+  def destroy
+    app = App.find_by(id: params[:id])
+
+    unless app
+      return render json: { error: "App not found" }, status: :not_found
+    end
+
+    unless app.dev_id == @current_user.id
+      return render json: { error: "Forbidden" }, status: :forbidden
+    end
+
+    app.destroy
+    render json: { message: "App deleted successfully" }, status: :ok
+  end
+
+  def drive_direct_link(url)
+    match = url.match(/\/d\/([a-zA-Z0-9_-]+)/)
+    return nil unless match
+
+    file_id = match[1]
+    "https://drive.google.com/thumbnail?id=#{file_id}&sz=w500"
   end
 
   private
 
   def app_params
     params.require(:app).permit(
-      :name, :description, :is_game, :cost, :size, :android_min_version, :ram_needed
+      :name, :description, :is_game, :cost, :size,
+      :android_min_version, :ram_needed
     )
   end
 end
