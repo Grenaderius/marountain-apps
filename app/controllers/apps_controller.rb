@@ -54,7 +54,8 @@ class AppsController < ApplicationController
         size: app.size,
         android_min_version: app.android_min_version,
         ram_needed: app.ram_needed,
-        rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0
+        rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0,
+        dev: app.dev ? { id: app.dev.id, name: app.dev.name, email: app.dev.email } : nil
       }
     else
       render json: { error: "App not found" }, status: :not_found
@@ -64,6 +65,8 @@ class AppsController < ApplicationController
   private
 
   def app_params
-    params.require(:app).permit(:name, :description, :dev_id, :is_game, :cost, :size, :android_min_version, :ram_needed)
+    params.require(:app).permit(
+      :name, :description, :is_game, :cost, :size, :android_min_version, :ram_needed
+    )
   end
 end
