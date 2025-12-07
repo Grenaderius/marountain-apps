@@ -25,7 +25,6 @@ export default function Header() {
             <nav className="nav">
                 {/* Логотип */}
                 <div className="logo">
-                    <img src="/logo.png" alt="Logo" className="logo-img" />
                     <span className="logo-text">Marountain Apps</span>
                 </div>
 
