@@ -32,10 +32,8 @@ class GoogleDriveController < ApplicationController
 
     service = GoogleDriveService.new
 
-    # тимчасовий файл
     temp_path = Rails.root.join("tmp", "#{file_id}.downloaded")
 
-    # завантажити файл локально
     service.download_file(file_id, temp_path.to_s)
 
     send_file temp_path, disposition: "attachment"
