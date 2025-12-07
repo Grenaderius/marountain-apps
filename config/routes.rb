@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # JWT Auth
   post "/login", to: "auth#login"
-  get "/apps/my", to: "apps#my"
+  get "/apps/my", to: "apps#my", defaults: { format: :json }
 
   resources :apps
   resources :users, only: [:index, :show, :create]

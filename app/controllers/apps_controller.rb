@@ -18,8 +18,9 @@ class AppsController < ApplicationController
   end
 
   def my
-    puts "CURRENT USER:"
-    puts @current_user.inspect
+    unless @current_user
+      return render json: { error: "Unauthorized" }, status: :unauthorized
+    end
 
     apps = App.where(dev_id: @current_user.id).map do |app|
       {
