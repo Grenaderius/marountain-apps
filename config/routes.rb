@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
   # JWT Auth
   post "/login", to: "auth#login"
+  get "/apps/my", to: "apps#my"
 
   resources :apps
   resources :users, only: [:index, :show, :create]
   resources :comments, only: [:index, :create, :update, :destroy]
 
   post "/upload", to: "uploads#create"
-  get "/apps/my", to: "apps#my"
 
   # Google Drive API
   post "/drive/upload", to: "google_drive#upload"
