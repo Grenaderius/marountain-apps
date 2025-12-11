@@ -1,7 +1,4 @@
 class StripeController < ApplicationController
-  # Вимикаємо CSRF тільки для webhook
-  skip_before_action :verify_authenticity_token, only: [:webhook]
-  # Вимикаємо авторизацію, якщо вона є
   skip_before_action :authorize_request, only: [:webhook]
 
   def webhook
@@ -17,10 +14,8 @@ class StripeController < ApplicationController
       return render json: { error: 'Invalid signature' }, status: 400
     end
 
-    case event['type']
-    when 'checkout.session.completed'
+    if event['type'] == 'checkout.session.completed'
       session = event['data']['object']
-
       user_id = session['metadata']['user_id'].to_i
       app_id = session['metadata']['app_id'].to_i
 
