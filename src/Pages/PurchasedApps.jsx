@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import "./PurchasedApps.css";
+import "./PurnchasedApps.css";
 
 const PurchasedApps = () => {
     const [apps, setApps] = useState([]);
