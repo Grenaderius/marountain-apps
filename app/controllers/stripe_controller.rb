@@ -1,6 +1,8 @@
 class StripeController < ApplicationController
-  skip_before_action :verify_authenticity_token
-  skip_before_action :authorize_request
+  # Вимикаємо CSRF тільки для webhook
+  skip_before_action :verify_authenticity_token, only: [:webhook]
+  # Вимикаємо авторизацію, якщо вона є
+  skip_before_action :authorize_request, only: [:webhook]
 
   def webhook
     payload = request.body.read
@@ -22,7 +24,7 @@ class StripeController < ApplicationController
       user_id = session['metadata']['user_id'].to_i
       app_id = session['metadata']['app_id'].to_i
 
-      Purchase.find_or_create_by(user_id:, app_id:)
+      Purchase.find_or_create_by(user_id: user_id, app_id: app_id)
     end
 
     render json: { status: 'success' }

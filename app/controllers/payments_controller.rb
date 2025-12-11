@@ -1,5 +1,6 @@
+# app/controllers/payments_controller.rb
 class PaymentsController < ApplicationController
-  skip_before_action :authorize_request
+  skip_before_action :authorize_request, only: [:create_checkout_session]
 
   def create_checkout_session
     app = App.find(params[:app_id])
@@ -7,7 +8,7 @@ class PaymentsController < ApplicationController
 
     # Free app → no Stripe
     if app.cost.to_f <= 0
-      Purchase.find_or_create_by(user_id:, app_id: app.id)
+      Purchase.find_or_create_by(user_id: user_id, app_id: app.id)
       return render json: {
         free: true,
         download_url: app.apk_path
@@ -18,15 +19,13 @@ class PaymentsController < ApplicationController
       mode: 'payment',
       payment_method_types: ['card'],
       metadata: {
-        user_id:,
+        user_id: user_id,
         app_id: app.id
       },
       line_items: [{
         price_data: {
           currency: 'usd',
-          product_data: {
-            name: app.name
-          },
+          product_data: { name: app.name },
           unit_amount: (app.cost.to_f * 100).to_i
         },
         quantity: 1

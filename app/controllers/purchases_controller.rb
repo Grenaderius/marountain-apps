@@ -1,3 +1,4 @@
+# app/controllers/purchases_controller.rb
 class PurchasesController < ApplicationController
   before_action :authorize_request
 
