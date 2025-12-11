@@ -11,7 +11,8 @@ Rails.application.routes.draw do
 
   # payment
   post "/payments/create_checkout_session", to: "payments#create_checkout_session"
-
+  post "/stripe/webhook", to: "stripe#webhook"
+  get "/purchases/my", to: "purchases#my"
 
   # Google Drive API
   post "/drive/upload", to: "google_drive#upload"

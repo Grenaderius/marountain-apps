@@ -3,26 +3,31 @@ class PaymentsController < ApplicationController
 
   def create_checkout_session
     app = App.find(params[:app_id])
+    user_id = params[:user_id].to_i
 
-    # Якщо app.cost == 0 → безкоштовно
-    if app.cost.to_i == 0
-      render json: {
+    # Free app → no Stripe
+    if app.cost.to_f <= 0
+      Purchase.find_or_create_by(user_id:, app_id: app.id)
+      return render json: {
         free: true,
-        download_url: app.apk_path # або drive_direct_link(app.apk_path)
+        download_url: app.apk_path
       }
-      return
     end
 
     session = Stripe::Checkout::Session.create(
-      payment_method_types: ['card'],
       mode: 'payment',
+      payment_method_types: ['card'],
+      metadata: {
+        user_id:,
+        app_id: app.id
+      },
       line_items: [{
         price_data: {
           currency: 'usd',
           product_data: {
             name: app.name
           },
-          unit_amount: (app.cost * 100).to_i
+          unit_amount: (app.cost.to_f * 100).to_i
         },
         quantity: 1
       }],
