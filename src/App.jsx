@@ -12,7 +12,7 @@ import SignUp from "./Pages/SignUp";
 import ViewUploadedApps from "./Pages/ViewUploadedApps";
 import AppDetails from "./Pages/AppDetails";
 import ChangeUploadedApp from "./Pages/ChangeUploadedApp";
-
+import PurchasedApps from "./Pages/PurchasedApps";
 
 export default function App() {
 
@@ -28,6 +28,7 @@ export default function App() {
                 <Route path="/apps/:id" element={<AppDetails />} />
                 <Route path="/change-app/:id" element={<ChangeUploadedApp />} />
                 <Route path="/games" element={<Games />} />
+                <Route path="/payment-success" element={<PurchasedApps />} />
 
                 <Route path="/sign-up" element={<SignUp />} />
             </Routes>

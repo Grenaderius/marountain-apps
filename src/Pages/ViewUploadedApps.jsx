@@ -51,7 +51,7 @@ const ViewUploadedApps = () => {
             if (response.ok) {
                 setApps((prev) => prev.filter((app) => app.id !== id));
             } else {
-                alert("Помилка при видаленні додатку");
+                alert("Delete eror");
             }
         } catch (error) {
             console.error("Delete error:", error);
@@ -64,7 +64,7 @@ const ViewUploadedApps = () => {
 
     return (
         <div className="uploaded-apps-container">
-            <h2>Завантажені додатки</h2>
+            <h2>Downloaded apps</h2>
             <div className="apps-grid">
                 {apps.length > 0 ? (
                     apps.map((app) => (

@@ -32,12 +32,15 @@ const AppDetails = () => {
 
     useEffect(() => {
         let canceled = false;
+
         const load = async () => {
             setLoading(true);
             setError(null);
+
             try {
                 const res = await fetch(`${API_URL}/apps/${id}`);
                 if (!res.ok) throw new Error(`Failed to load app: ${res.status}`);
+
                 const data = await res.json();
 
                 if (!canceled) {
@@ -61,6 +64,7 @@ const AppDetails = () => {
                 if (!canceled) setLoading(false);
             }
         };
+
         load();
         return () => (canceled = true);
     }, [API_URL, id]);
@@ -79,6 +83,7 @@ const AppDetails = () => {
         if (!commentText.trim()) return alert("Write a comment first!");
 
         setSaving(true);
+
         try {
             const existing = findUserComment(app?.comments || []);
             const method = existing ? "PUT" : "POST";
@@ -102,6 +107,7 @@ const AppDetails = () => {
 
             const data = await res.json();
             upsertCommentInState(data);
+
             setCommentText("");
             setRating(5);
 
@@ -145,6 +151,40 @@ const AppDetails = () => {
         }
     };
 
+
+    const handleBuyOrDownload = async () => {
+        if (!app) return;
+
+        if (app.cost === 0) {
+            window.open(app.apk_file_id, "_blank");
+            return;
+        }
+
+        try {
+            const res = await fetch(`${API_URL}/payments/create_checkout_session`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ app_id: app.id })
+            });
+
+            const data = await res.json();
+
+            if (data.free) {
+                window.open(data.download_url, "_blank");
+                return;
+            }
+
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                alert("Unable to start payment.");
+            }
+        } catch (e) {
+            alert("Payment error");
+        }
+    };
+
+
     if (loading) return <h1>Loading...</h1>;
     if (error) return <h1>Error: {error}</h1>;
     if (!app) return <h1>App not found</h1>;
@@ -177,18 +217,12 @@ const AppDetails = () => {
                 </div>
 
                 <div className="app-details-download-section">
-                    {app.apk_file_id ? (
-                        <a
-                            className="app-details-download"
-                            href={`${app.apk_file_id}`}
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            Download APK
-                        </a>
-                    ) : (
-                        <button className="app-details-download" disabled>No APK</button>
-                    )}
+                    <button
+                        className="app-details-download"
+                        onClick={handleBuyOrDownload}
+                    >
+                        {app.cost > 0 ? `Buy for ${app.cost} USD` : "Download APK"}
+                    </button>
                 </div>
 
                 <div className="app-details-description-section">

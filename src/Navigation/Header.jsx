@@ -23,12 +23,10 @@ export default function Header() {
     return (
         <header className="header">
             <nav className="nav">
-                {/* Логотип */}
                 <div className="logo">
                     <span className="logo-text">Marountain Apps</span>
                 </div>
 
-                {/* Посилання + дропдаун */}
                 <div className="nav-links">
                     <Link to="/games" className="nav-link">Games</Link>
                     <Link to="/apps" className="nav-link">Apps</Link>
@@ -44,6 +42,7 @@ export default function Header() {
                             <ul className="dropdown-list">
                                 <Link to="/add-app" style={{ textDecoration: "none", color: "inherit" }}><li className="dropdown-item">Add app</li></Link>
                                 <Link to="/my-apps" style={{ textDecoration: "none", color: "inherit" }}><li className="dropdown-item">View uploaded apps</li></Link>
+                                <Link to="/payment-success" style={{ textDecoration: "none", color: "inherit" }}><li className="dropdown-item">View bought apps</li></Link>
                                 {/*gap */}
                                 <Link to="/" style={{ textDecoration: "none", color: "inherit" }}><li className="dropdown-item">login</li></Link>
                             </ul>
