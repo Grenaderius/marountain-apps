@@ -1,4 +1,4 @@
-class WebhooksController < ApplicationController::Base
+class WebhooksController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def stripe
