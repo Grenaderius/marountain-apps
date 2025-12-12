@@ -13,10 +13,25 @@ const PurchasedApps = () => {
 
     useEffect(() => {
         const loadData = async () => {
+            const sessionId = searchParams.get("session_id");
             const successParam = searchParams.get("success");
 
-            if (successParam === "true") {
-                setMessage("Purchase successful!");
+            if (sessionId && successParam === "true") {
+                try {
+                    // Створюємо запис у БД
+                    await fetch(`${API_URL}/purchases/create_after_payment`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                        body: JSON.stringify({ session_id: sessionId }),
+                    });
+
+                    setMessage("Purchase successful!");
+                } catch (error) {
+                    console.error("Error creating purchase:", error);
+                }
             }
 
             try {
@@ -25,7 +40,6 @@ const PurchasedApps = () => {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-
                 const data = await res.json();
                 setApps(data);
             } catch (error) {
