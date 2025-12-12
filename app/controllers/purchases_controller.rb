@@ -1,6 +1,7 @@
 class PurchasesController < ApplicationController
   before_action :authorize_request, only: [:my, :create_after_payment]
 
+  # GET /purchases/my
   def my
     drive = GoogleDriveService.new
 
@@ -26,8 +27,18 @@ class PurchasesController < ApplicationController
     render json: { error: e.message }, status: :internal_server_error
   end
 
+  # POST /purchases/create_after_payment
   def create_after_payment
-    purchase = Purchase.find_or_create_by(user_id: @current_user.id, app_id: params[:app_id])
+    unless @current_user
+      return render json: { error: "User not logged in" }, status: :unauthorized
+    end
+
+    app_id = params[:app_id] || params.dig(:purchase, :app_id)
+    unless app_id
+      return render json: { error: "app_id missing" }, status: :bad_request
+    end
+
+    purchase = Purchase.find_or_create_by!(user_id: @current_user.id, app_id: app_id)
     render json: purchase
   rescue ActiveRecord::RecordInvalid => e
     render json: { error: e.record.errors.full_messages.join(", ") }, status: :unprocessable_entity
