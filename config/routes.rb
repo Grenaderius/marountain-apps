@@ -14,6 +14,12 @@ Rails.application.routes.draw do
   post "/stripe/webhook", to: "stripe#webhook"
   get "/purchases/my", to: "purchases#my"
 
+  resources :purchases, only: [] do
+    collection do
+      get :my
+    end
+  end
+
   # Google Drive API
   post "/drive/upload", to: "google_drive#upload"
   delete "/drive/files/:id", to: "google_drive#delete"
