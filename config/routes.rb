@@ -11,9 +11,10 @@ Rails.application.routes.draw do
 
   # payment
   post "/payments/create_checkout_session", to: "payments#create_checkout_session"
-  post "/stripe/webhook", to: "stripe#webhook"
+  post "/webhooks/stripe", to: "webhooks#stripe"
   get "/purchases/my", to: "purchases#my"
   post "payments/success", to: "payments#success"
+  post "/purchases/create_after_payment", to: "purchases#create_after_payment"
 
   resources :purchases, only: [] do
     collection do

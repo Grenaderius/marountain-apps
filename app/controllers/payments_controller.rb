@@ -29,7 +29,7 @@ class PaymentsController < ApplicationController
         quantity: 1
       }],
 
-      success_url: "#{ENV['DOMAIN']}/purchased-apps?session_id={CHECKOUT_SESSION_ID}",
+      success_url: "#{ENV['DOMAIN']}/purchased-apps?success=true&session_id={CHECKOUT_SESSION_ID}",
       cancel_url: "#{ENV['DOMAIN']}/games"
     )
 
