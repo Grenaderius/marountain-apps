@@ -1,5 +1,5 @@
 class PurchasesController < ApplicationController
-  before_action :authorize_request
+    skip_before_action :authorize_request
 
   def my
     drive = GoogleDriveService.new

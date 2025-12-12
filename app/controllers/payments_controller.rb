@@ -1,5 +1,5 @@
 class PaymentsController < ApplicationController
-  skip_before_action :authorize_request, only: [:create_checkout_session, :success]
+    skip_before_action :authorize_request
 
   def create_checkout_session
     app = App.find(params[:app_id])
