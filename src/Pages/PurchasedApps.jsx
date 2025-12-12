@@ -5,15 +5,17 @@ import "./PurnchasedApps.css";
 const PurchasedApps = () => {
     const [apps, setApps] = useState([]);
     const [message, setMessage] = useState("");
+
     const API_URL = import.meta.env.VITE_API_URL;
     const token = localStorage.getItem("token");
 
     const [searchParams] = useSearchParams();
-    const sessionId = searchParams.get("session_id");
 
     useEffect(() => {
-        const load = async () => {
-            if (sessionId) {
+        const loadData = async () => {
+            const successParam = searchParams.get("success");
+
+            if (successParam === "true") {
                 setMessage("Purchase successful!");
             }
 
@@ -26,13 +28,13 @@ const PurchasedApps = () => {
 
                 const data = await res.json();
                 setApps(data);
-            } catch (err) {
-                console.error(err);
+            } catch (error) {
+                console.error("Error loading purchased apps:", error);
             }
         };
 
-        load();
-    }, [sessionId]);
+        loadData();
+    }, []);
 
     return (
         <div className="uploaded-apps-container">

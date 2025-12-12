@@ -28,7 +28,7 @@ export default function App() {
                 <Route path="/apps/:id" element={<AppDetails />} />
                 <Route path="/change-app/:id" element={<ChangeUploadedApp />} />
                 <Route path="/games" element={<Games />} />
-                <Route path="/payment-success" element={<PurchasedApps />} />
+                <Route path="/purchased-apps" element={<PurchasedApps />} />
 
                 <Route path="/sign-up" element={<SignUp />} />
             </Routes>
