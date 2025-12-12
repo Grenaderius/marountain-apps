@@ -1,5 +1,5 @@
 class WebhooksController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, raise: false
 
   def stripe
     payload = request.body.read
@@ -12,8 +12,7 @@ class WebhooksController < ApplicationController
       return head 400
     end
 
-    case event['type']
-    when 'checkout.session.completed'
+    if event['type'] == 'checkout.session.completed'
       session = event['data']['object']
       user_id = session.metadata.user_id
       app_id  = session.metadata.app_id
