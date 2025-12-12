@@ -30,8 +30,8 @@ class PaymentsController < ApplicationController
         },
         quantity: 1
       }],
-      success_url: "#{ENV['DOMAIN']}/payment-success?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: "#{ENV['DOMAIN']}/payment-cancel"
+      success_url: "#{ENV['DOMAIN']}/games",
+      cancel_url: "#{ENV['DOMAIN']}/games"
     )
 
     render json: { url: session.url }
