@@ -151,39 +151,66 @@ const AppDetails = () => {
         }
     };
 
-
     const handleBuyOrDownload = async () => {
         if (!app) return;
 
+        // Безкоштовний додаток
         if (app.cost === 0) {
-            window.open(app.apk_file_id, "_blank");
+            window.open(app.apk_url, "_blank");
+            try {
+                // Додаємо покупку на бекенд
+                if (user && token) {
+                    await fetch(`${API_URL}/purchases/create_after_payment`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ app_id: app.id })
+                    });
+                }
+            } catch (e) {
+                console.error("Error creating purchase:", e);
+            }
             return;
         }
 
+        // Платний додаток → створюємо Checkout session
         try {
             const res = await fetch(`${API_URL}/payments/create_checkout_session`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ app_id: app.id })
+                body: JSON.stringify({ app_id: app.id, user_id: user?.id })
             });
 
             const data = await res.json();
 
-            if (data.free) {
+            if (data.free && data.download_url) {
                 window.open(data.download_url, "_blank");
+                // Додаємо покупку після free
+                if (user && token) {
+                    await fetch(`${API_URL}/purchases/create_after_payment`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ app_id: app.id })
+                    });
+                }
                 return;
             }
 
             if (data.url) {
-                window.location.href = data.url;
+                window.location.href = data.url; // редірект на Stripe Checkout
             } else {
                 alert("Unable to start payment.");
             }
         } catch (e) {
+            console.error(e);
             alert("Payment error");
         }
     };
-
 
     if (loading) return <h1>Loading...</h1>;
     if (error) return <h1>Error: {error}</h1>;
