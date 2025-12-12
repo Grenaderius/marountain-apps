@@ -1,5 +1,5 @@
 class PurchasesController < ApplicationController
-    skip_before_action :authorize_request
+  before_action :authorize_request, only: [:my, :create_after_payment]
 
   def my
     drive = GoogleDriveService.new
@@ -8,6 +8,7 @@ class PurchasesController < ApplicationController
 
     apps = purchases.map do |p|
       app = p.app
+      next unless app
 
       {
         id: app.id,
@@ -18,9 +19,20 @@ class PurchasesController < ApplicationController
         cost: app.cost,
         dev_id: app.dev_id
       }
-    end
+    end.compact
 
     render json: apps
+  rescue => e
+    render json: { error: e.message }, status: :internal_server_error
+  end
+
+  def create_after_payment
+    purchase = Purchase.find_or_create_by(user_id: @current_user.id, app_id: params[:app_id])
+    render json: purchase
+  rescue ActiveRecord::RecordInvalid => e
+    render json: { error: e.record.errors.full_messages.join(", ") }, status: :unprocessable_entity
+  rescue => e
+    render json: { error: e.message }, status: :internal_server_error
   end
 
   private
