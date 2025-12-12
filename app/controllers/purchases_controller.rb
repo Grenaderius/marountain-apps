@@ -42,15 +42,4 @@ class PurchasesController < ApplicationController
     file_id = match[1]
     "https://drive.google.com/uc?export=download&id=#{file_id}"
   end
-
-  def create_after_payment
-    session = Stripe::Checkout::Session.retrieve(params[:session_id])
-
-    Purchase.find_or_create_by(
-      user_id: session.metadata.user_id,
-      app_id: session.metadata.app_id
-    )
-
-    render json: { ok: true }
-  end
 end
