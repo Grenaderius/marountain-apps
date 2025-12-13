@@ -204,6 +204,12 @@ const AppDetails = () => {
 
     const myComment = findUserComment(app.comments || []);
 
+    const renderSentiment = (sentiment) => {
+        if (sentiment === "POSITIVE") return <span style={{ color: "#2e7d32" }}>🟢 Positive</span>;
+        if (sentiment === "NEGATIVE") return <span style={{ color: "#c62828" }}>🔴 Negative</span>;
+        return <span style={{ color: "#757575" }}>⚪ Neutral</span>;
+    };
+
     return (
         <div className="app-details-page">
             <div className="app-details-bg"></div>
@@ -267,6 +273,9 @@ const AppDetails = () => {
                                         <p className="comment-rating">Rating: {c.rating} ★</p>
                                     </div>
                                     <p className="comment-text">{c.comment}</p>
+                                    <p className="comment-sentiment">
+                                        Our bot is considering this comment as: {renderSentiment(c.sentiment)}!
+                                    </p>
                                     {user && Number(c.user_id) === Number(user.id) && (
                                         <div style={{ marginTop: 8 }}>
                                             <button onClick={() => deleteComment(c.id)} className="delete-comment-btn">Delete</button>
