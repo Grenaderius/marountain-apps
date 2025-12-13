@@ -17,7 +17,24 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
+gem 'jwt'
+
 gem "bcrypt", "~> 3.1.7"
+
+gem "rack-cors"
+
+#google drive
+# google drive OAuth
+gem 'googleauth', '~> 1.3'
+
+gem 'google-apis-drive_v3'
+
+gem "dotenv-rails"
+
+gem "gemini-ai", "~> 4.3.0"
+
+#payment system
+gem "stripe"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
@@ -26,9 +43,7 @@ gem "bcrypt", "~> 3.1.7"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
-gem "solid_cache"
-gem "solid_queue"
-gem "solid_cable"
+
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -53,7 +68,6 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   #
-  gem "rack-cors"
 end
 
 group :development do
