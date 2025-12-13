@@ -154,28 +154,25 @@ const AppDetails = () => {
     const handleBuyOrDownload = async () => {
         if (!app) return;
 
-        // Безкоштовний додаток
         if (app.cost === 0) {
             window.open(app.apk_url, "_blank");
-            try {
-                // Додаємо покупку на бекенд
-                if (user && token) {
-                    await fetch(`${API_URL}/purchases/create_after_payment`, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${token}`
-                        },
-                        body: JSON.stringify({ app_id: app.id })
-                    });
-                }
-            } catch (e) {
-                console.error("Error creating purchase:", e);
+
+            if (user && token) {
+                await fetch(`${API_URL}/purchases/create_after_payment`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        app_id: app.id,
+                        payment_success: true
+                    })
+                });
             }
             return;
         }
 
-        // Платний додаток → створюємо Checkout session
         try {
             const res = await fetch(`${API_URL}/payments/create_checkout_session`, {
                 method: "POST",
@@ -185,24 +182,8 @@ const AppDetails = () => {
 
             const data = await res.json();
 
-            if (data.free && data.download_url) {
-                window.open(data.download_url, "_blank");
-                // Додаємо покупку після free
-                if (user && token) {
-                    await fetch(`${API_URL}/purchases/create_after_payment`, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${token}`
-                        },
-                        body: JSON.stringify({ app_id: app.id })
-                    });
-                }
-                return;
-            }
-
             if (data.url) {
-                window.location.href = data.url; // редірект на Stripe Checkout
+                window.location.href = data.url;
             } else {
                 alert("Unable to start payment.");
             }

@@ -1,34 +1,34 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "./PurnchasedApps.css";
 
 const PurchasedApps = () => {
     const [apps, setApps] = useState([]);
-    const [message, setMessage] = useState("");
+    const [message] = useState("");
 
     const API_URL = import.meta.env.VITE_API_URL;
     const token = localStorage.getItem("token");
-
     const [searchParams] = useSearchParams();
 
     useEffect(() => {
         const loadData = async () => {
-            const sessionId = searchParams.get("session_id");
-            const successParam = searchParams.get("success");
+            const success = searchParams.get("success");
+            const appId = searchParams.get("app_id");
 
-            if (sessionId && successParam === "true") {
+            // ✅ створюємо purchase ТІЛЬКИ після успішної оплати
+            if (success === "true" && appId && token) {
                 try {
-                    // ��������� ����� � ��
                     await fetch(`${API_URL}/purchases/create_after_payment`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                             Authorization: `Bearer ${token}`,
                         },
-                        body: JSON.stringify({ session_id: sessionId }),
+                        body: JSON.stringify({
+                            app_id: Number(appId),
+                            payment_success: true
+                        }),
                     });
-
-                    setMessage("Purchase successful!");
                 } catch (error) {
                     console.error("Error creating purchase:", error);
                 }
@@ -48,7 +48,7 @@ const PurchasedApps = () => {
         };
 
         loadData();
-    }, []);
+    }, [API_URL, searchParams, token]);
 
     return (
         <div className="uploaded-apps-container">
