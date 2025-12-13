@@ -58,12 +58,12 @@
     border-radius: 8px;
     cursor: pointer;
     font-weight: 500;
-    background-color: #28a745;
+    background-color: #9C7777;
     color: white;
     text-decoration: none;
     display: inline-block;
 }
 
     .download-btn:hover {
-        background-color: #1e7e34;
+        background-color: #ac7777;
     }
