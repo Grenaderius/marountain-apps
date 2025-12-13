@@ -5,7 +5,6 @@ class PaymentsController < ApplicationController
     app = App.find(params[:app_id])
     user_id = params[:user_id].to_i
 
-    # Для безкоштовних додатків
     if app.cost.to_f <= 0
       Purchase.find_or_create_by(user_id: user_id, app_id: app.id)
       return render json: {
@@ -29,14 +28,13 @@ class PaymentsController < ApplicationController
         },
         quantity: 1
       }],
-      success_url: "#{ENV['DOMAIN']}/purchased-apps?success=true&session_id={CHECKOUT_SESSION_ID}",
+      success_url: "#{ENV['DOMAIN']}/purchased-apps?success=true&app_id=#{app.id}",
       cancel_url: "#{ENV['DOMAIN']}/games"
     )
 
     render json: { url: session.url }
   end
 
-  # Просто показує інформацію для фронтенду
   def success
     session_id = params[:session_id]
     return render json: { error: "missing session_id" }, status: 400 unless session_id
