@@ -3,7 +3,26 @@ class CommentsController < ApplicationController
 
   def index
     comments = Comment.includes(:user)
-    render json: comments, include: { user: { only: [:id, :name, :email] } }
+
+    result = comments.map do |comment|
+      sentiment = SentimentService.analyze(comment.comment)
+
+      {
+        id: comment.id,
+        comment: comment.comment,
+        rating: comment.rating,
+        app_id: comment.app_id,
+        created_at: comment.created_at,
+        sentiment: sentiment,
+        user: {
+          id: comment.user.id,
+          name: comment.user.name,
+          email: comment.user.email
+        }
+      }
+    end
+
+    render json: result
   end
 
   def create
