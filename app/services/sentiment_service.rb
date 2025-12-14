@@ -2,7 +2,7 @@ require "net/http"
 require "json"
 
 class SentimentService
-  API_URL = "https://api-inference.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english"
+  API_URL = "https://router.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english"
 
   def self.analyze(text)
     return "NEUTRAL" if text.blank?
@@ -11,7 +11,9 @@ class SentimentService
 
     request = Net::HTTP::Post.new(uri)
     request["Authorization"] = "Bearer #{ENV['HF_TOKEN']}"
-    request["Content-Type"] = "application/json"
+    request["Content-Type"]  = "application/json"
+    request["Accept"]        = "application/json"
+    request["User-Agent"]    = "Rails-Sentiment-Service"
     request.body = { inputs: text }.to_json
 
     response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
@@ -25,11 +27,12 @@ class SentimentService
 
     data = JSON.parse(response.body)
 
-    # Очікуємо масив [{label, score}, ...]
-    return "NEUTRAL" unless data.is_a?(Array)
+    # router повертає: [[{label, score}, ...]]
+    predictions = data.first
+    return "NEUTRAL" unless predictions.is_a?(Array)
 
-    best = data.max_by { |x| x["score"].to_f }
-    return "NEUTRAL" unless best && best["label"]
+    best = predictions.max_by { |x| x["score"].to_f }
+    return "NEUTRAL" unless best
 
     best["label"] # "POSITIVE" або "NEGATIVE"
   rescue => e
