@@ -1,14 +1,20 @@
 class SessionsController < ApplicationController
-  skip_before_action :verify_authenticity_token
 
   def create
     creds = params[:session] || params
     user = User.find_by(email: creds[:email])
 
     if user&.authenticate(creds[:password])
-      render json: { success: true, user: user }, status: :ok
+      token = JsonWebToken.encode({ user_id: user.id })
+      session[:user_id] = user.id
+      render json: { user: user, token: token }, status: :ok
     else
-      render json: { success: false, error: "Invalid email or password" }, status: :unauthorized
+      render json: { error: "Invalid email or password" }, status: :unauthorized
     end
+  end
+
+  def destroy
+    session[:user_id] = nil
+    render json: { message: "Logged out" }
   end
 end
