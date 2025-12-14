@@ -2,7 +2,7 @@ require "net/http"
 require "json"
 
 class SentimentService
-  API_URL = "https://router.huggingface.co/hf-inference/models/distilbert-base-uncased-finetuned-sst-2-english"
+  API_URL = "https://router.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english"
   CONFIDENCE_THRESHOLD = 0.55
 
   def self.analyze(text)
