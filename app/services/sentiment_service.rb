@@ -15,31 +15,33 @@ class SentimentService
     request["Content-Type"] = "application/json"
     request.body = { inputs: text }.to_json
 
-    response = Net::HTTP.start(
-      uri.hostname,
-      uri.port,
-      use_ssl: true
-    ) { |http| http.request(request) }
+    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(request)
+    end
 
-    data = JSON.parse(response.body)
+    body = response.body
+    data = JSON.parse(body)
 
-    # Очікуваний формат:
-    # [
-    #   [
-    #     { "label" => "NEGATIVE", "score" => 0.91 },
-    #     { "label" => "POSITIVE", "score" => 0.09 }
-    #   ]
-    # ]
-    best = data.first.max_by { |x| x["score"] }
+    Rails.logger.info("HF response: #{data.inspect}")
 
-    score = best["score"].to_f
-    label = best["label"]
+    if data.is_a?(Hash) && data["error"]
+      Rails.logger.error("HF API error: #{data['error']}")
+      return "NEUTRAL"
+    end
 
-    return "NEUTRAL" if score < CONFIDENCE_THRESHOLD
+    unless data.is_a?(Array) && data.first.is_a?(Array)
+      Rails.logger.error("HF unexpected format: #{data.inspect}")
+      return "NEUTRAL"
+    end
 
-    label
+    best = data.first.max_by { |x| x["score"].to_f }
+
+    return "NEUTRAL" if best.nil?
+    return "NEUTRAL" if best["score"].to_f < CONFIDENCE_THRESHOLD
+
+    best["label"]
   rescue => e
-    Rails.logger.error("Sentiment error: #{e.class} - #{e.message}")
+    Rails.logger.error("Sentiment exception: #{e.class} - #{e.message}")
     "NEUTRAL"
   end
 end
