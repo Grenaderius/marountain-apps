@@ -106,15 +106,29 @@ class AppsController < ApplicationController
       id: app.id,
       name: app.name,
       description: app.description,
-      photo_url: drive_thumbnail(app.photo_path),       
-      apk_url: drive_download(app.apk_path),            
+      photo_url: drive_thumbnail(app.photo_path),
+      apk_url: drive_download(app.apk_path),
       is_game: app.is_game,
       cost: app.cost,
       size: app.size,
       android_min_version: app.android_min_version,
       ram_needed: app.ram_needed,
       rating: app.comments.any? ? app.comments.average(:rating).to_f.round(1) : 0,
-      dev: app.dev ? { id: app.dev.id, email: app.dev.email } : nil
+      dev: app.dev ? { id: app.dev.id, email: app.dev.email } : nil,
+      comments: app.comments.includes(:user).map do |c|
+        {
+          id: c.id,
+          comment: c.comment,
+          rating: c.rating,
+          user_id: c.user_id,
+          created_at: c.created_at,
+          sentiment: SentimentService.analyze(c.comment),
+          user: {
+            id: c.user.id,
+            email: c.user.email
+          }
+        }
+      end
     }
   end
 
