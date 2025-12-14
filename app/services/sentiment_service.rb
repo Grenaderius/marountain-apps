@@ -2,13 +2,11 @@ require "net/http"
 require "json"
 
 class SentimentService
-  API_URL = "https://api-inference.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english"
+  API_URL = "https://router.huggingface.co/hf-inference/models/distilbert-base-uncased-finetuned-sst-2-english"
   CONFIDENCE_THRESHOLD = 0.55
 
   def self.analyze(text)
     return "NEUTRAL" if text.blank?
-
-    Rails.logger.info("HF TOKEN PRESENT? #{ENV['HF_TOKEN'].present?}")
 
     uri = URI(API_URL)
 
@@ -21,27 +19,29 @@ class SentimentService
       http.request(request)
     end
 
-    # ❗ важливо
+    content_type = response["content-type"].to_s
+
     unless response.is_a?(Net::HTTPSuccess)
       Rails.logger.error("HF HTTP error #{response.code}: #{response.body}")
       return "NEUTRAL"
     end
 
+    unless content_type.include?("application/json")
+      Rails.logger.error("HF non-JSON response: #{response.body}")
+      return "NEUTRAL"
+    end
+
     data = JSON.parse(response.body)
 
-    # HF може повернути { "error": "..." }
     if data.is_a?(Hash) && data["error"]
       Rails.logger.error("HF API error: #{data['error']}")
       return "NEUTRAL"
     end
 
-    # Очікувано: [[{label, score}, ...]]
-    unless data.is_a?(Array) && data.first.is_a?(Array)
-      Rails.logger.error("HF unexpected format: #{data.inspect}")
-      return "NEUTRAL"
-    end
+    predictions = data.first
+    return "NEUTRAL" unless predictions.is_a?(Array)
 
-    best = data.first.max_by { |x| x["score"].to_f }
+    best = predictions.max_by { |x| x["score"].to_f }
     return "NEUTRAL" if best.nil?
     return "NEUTRAL" if best["score"].to_f < CONFIDENCE_THRESHOLD
 
