@@ -2,7 +2,7 @@ require "net/http"
 require "json"
 
 class SentimentService
-  API_URL = "https://api-inference.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english"
+  API_URL = "https://router.huggingface.co/hf-inference/models/distilbert-base-uncased-finetuned-sst-2-english"
   CONFIDENCE_THRESHOLD = 0.55
 
   def self.analyze(text)
@@ -19,16 +19,15 @@ class SentimentService
       http.request(request)
     end
 
-    body = response.body
-    data = JSON.parse(body)
+    data = JSON.parse(response.body)
 
-    Rails.logger.info("HF response: #{data.inspect}")
-
+    # HuggingFace API error
     if data.is_a?(Hash) && data["error"]
       Rails.logger.error("HF API error: #{data['error']}")
       return "NEUTRAL"
     end
 
+    # Expected: [[{label, score}, ...]]
     unless data.is_a?(Array) && data.first.is_a?(Array)
       Rails.logger.error("HF unexpected format: #{data.inspect}")
       return "NEUTRAL"
