@@ -3,8 +3,11 @@ require "json"
 
 class SentimentService
   API_URL = "https://api-inference.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english"
+  CONFIDENCE_THRESHOLD = 0.55
 
   def self.analyze(text)
+    return "NEUTRAL" if text.blank?
+
     uri = URI(API_URL)
 
     request = Net::HTTP::Post.new(uri)
@@ -20,15 +23,23 @@ class SentimentService
 
     data = JSON.parse(response.body)
 
-    best = data[0].max_by { |x| x["score"] }
+    # Очікуваний формат:
+    # [
+    #   [
+    #     { "label" => "NEGATIVE", "score" => 0.91 },
+    #     { "label" => "POSITIVE", "score" => 0.09 }
+    #   ]
+    # ]
+    best = data.first.max_by { |x| x["score"] }
 
-    if best["score"] < 0.6
-      "NEUTRAL"
-    else
-      best["label"] 
-    end
+    score = best["score"].to_f
+    label = best["label"]
+
+    return "NEUTRAL" if score < CONFIDENCE_THRESHOLD
+
+    label
   rescue => e
-    Rails.logger.error("Sentiment error: #{e.message}")
+    Rails.logger.error("Sentiment error: #{e.class} - #{e.message}")
     "NEUTRAL"
   end
 end
