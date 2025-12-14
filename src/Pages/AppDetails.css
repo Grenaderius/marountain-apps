@@ -212,3 +212,9 @@ html, body {
     .delete-comment-btn:hover {
         background: #cc0000;
     }
+
+.comment-sentiment {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 12px;
+}
