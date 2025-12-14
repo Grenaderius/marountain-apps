@@ -2,7 +2,7 @@ require "net/http"
 require "json"
 
 class SentimentService
-  API_URL = "https://huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english"
+  API_URL = "https://router.huggingface.co/models/cardiffnlp/twitter-roberta-base-sentiment"
 
   def self.analyze(text)
     return "NEUTRAL" if text.blank?
